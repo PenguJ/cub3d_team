@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_rectangle_split.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/13 09:30:26 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/23 18:02:50 by jeojeon          ###   ########.fr       */
+/*   Created: 2023/05/23 18:04:23 by jeojeon           #+#    #+#             */
+/*   Updated: 2023/05/23 18:23:28 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_arr_size(char *str, char sep)
+static size_t	get_sizes(char *str, char sep, size_t *out_max_len)
 {
 	size_t	cnt;
+	size_t	tmp_len;
 
 	cnt = 0;
 	while (*str)
 	{
 		while (*str && (*str == sep))
-			str++;
+			++str;
 		if (*str)
-			cnt++;
+			++cnt;
+		tmp_len = 0;
 		while (*str && (*str != sep))
-			str++;
+		{
+			++str;
+			++tmp_len;
+		}
+		if (tmp_len > *out_max_len)
+			*out_max_len = tmp_len;
 	}
 	return (cnt);
 }
 
-static char	*ft_word_dup(char *str, char sep)
+static char	*ft_word_dup(char *str, char sep, size_t max_len)
 {
 	char	*tmp;
 	size_t	word_len;
@@ -37,7 +44,7 @@ static char	*ft_word_dup(char *str, char sep)
 	word_len = 0;
 	while (str[word_len] && (str[word_len] != sep))
 		word_len++;
-	tmp = (char *)ft_calloc(word_len + 1, sizeof(char));
+	tmp = (char *)ft_calloc(max_len + 1, sizeof(char));
 	if (!tmp)
 		return (NULL);
 	ft_strlcpy(tmp, str, word_len + 1);
@@ -53,25 +60,36 @@ static char	**ft_null_guard(char **arr, size_t i)
 	return (ft_allocerr());
 }
 
-char	**ft_split(char const *s, char c)
+static char	**alloc_arr(char *s, char c, size_t *max_len)
+{
+	char	**ret;
+
+	ret = NULL;
+	if (!s)
+		ret = (char **)ft_calloc(1, sizeof(char *));
+	else
+		ret = (char **)ft_calloc(get_sizes((char *)s, c, max_len) + 1, \
+								sizeof(char *));
+	return (ret);
+}
+
+char	**ft_rectangle_split(char const *s, char c)
 {
 	char	**arr;
+	size_t	max_len;
 	size_t	i;
 
-	i = 0;
-	if (!s)
-		arr = (char **)ft_calloc(1, sizeof(char *));
-	else
-		arr = (char **)ft_calloc(ft_arr_size((char *)s, c) + 1, sizeof(char *));
+	arr = alloc_arr((char *)s, c, &max_len);
 	if (!arr)
-		return (ft_allocerr());
+		return (NULL);
+	i = 0;
 	while (s && *s)
 	{
 		while (*s && (*s == c))
 			s++;
 		if (*s)
 		{
-			arr[i] = ft_word_dup((char *)s, c);
+			arr[i] = ft_word_dup((char *)s, c, max_len);
 			if (!arr[i])
 				return (ft_null_guard(arr, i));
 			i++;

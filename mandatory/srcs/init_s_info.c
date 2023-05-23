@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:25 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/21 22:27:33 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/23 18:36:05 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ void	init_info(t_info *const info)
 	info->objects.rgb_floor.red = 0;
 	info->objects.rgb_floor.green = 0;
 	info->objects.rgb_floor.blue = 0;
+	info->objects.rgb_floor.rgb = 0;
 
 	info->objects.rgb_ceiling.is_init = false;
 	info->objects.rgb_ceiling.red = 0;
 	info->objects.rgb_ceiling.green = 0;
 	info->objects.rgb_ceiling.blue = 0;
+	info->objects.rgb_ceiling.rgb = 0;
 
 	info->objects.north_wall.file = NULL;
 	info->objects.north_wall.cols = 0;

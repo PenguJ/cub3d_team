@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 09:21:27 by jeojeon           #+#    #+#              #
-#    Updated: 2023/05/20 17:47:57 by jeojeon          ###   ########.fr        #
+#    Updated: 2023/05/23 18:13:59 by jeojeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ BONUS = $(addprefix $(SRCSDIR), \
 		ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
 		ft_lstmap.c ft_stk.c ft_que.c ft_dque1.c ft_dque2.c \
-		ft_delsplit.c ft_allocerr.c)
+		ft_delsplit.c ft_allocerr.c ft_rectangle_split.c)
 OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS:.c=.o)
 ifdef BONUS_FLAG

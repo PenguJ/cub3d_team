@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:21 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/21 22:27:14 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/23 18:44:43 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	get_rgb_strs(t_info *const info, int fd, \
 	}
 }
 
-static void	check_invalid_rgb_value(t_info *const info, int fd, t_obj_id id)
+static void	check_rgb_and_composite(t_info *const info, int fd, t_obj_id id)
 {
 	if (id == id_floor)
 	{
@@ -94,6 +94,8 @@ static void	check_invalid_rgb_value(t_info *const info, int fd, t_obj_id id)
 			info->objects.rgb_floor.blue < 0 || \
 			info->objects.rgb_floor.blue > 255)
 			exit_process("invalid *.cub form!(6)", EXIT_FAILURE, info, fd);
+		info->objects.rgb_floor.rgb = (info->objects.rgb_floor.red << 16) + \
+			(info->objects.rgb_floor.green << 8) + info->objects.rgb_floor.blue;
 	}
 	else if (id == id_ceiling)
 	{
@@ -104,6 +106,9 @@ static void	check_invalid_rgb_value(t_info *const info, int fd, t_obj_id id)
 			info->objects.rgb_ceiling.blue < 0 || \
 			info->objects.rgb_ceiling.blue > 255)
 			exit_process("invalid *.cub form!(7)", EXIT_FAILURE, info, fd);
+		info->objects.rgb_ceiling.rgb = (info->objects.rgb_ceiling.red << 16) + \
+									(info->objects.rgb_ceiling.green << 8) + \
+									info->objects.rgb_ceiling.blue;
 	}
 }
 
@@ -132,5 +137,5 @@ void	get_rgb(t_info *const info, int fd, char *buf, t_obj_id id)
 		info->objects.rgb_ceiling.is_init = true;
 	}
 	ft_delsplit(color_strs);
-	check_invalid_rgb_value(info, fd, id);
+	check_rgb_and_composite(info, fd, id);
 }

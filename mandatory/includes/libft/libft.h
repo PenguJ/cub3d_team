@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 11:17:21 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/20 17:43:05 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/23 18:14:25 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ void	*ft_dquepop_back(t_dque *dq);
 char	get_next_line(int fd, char **ret);
 void	*ft_delsplit(char **strings);
 void	*ft_allocerr(void);
+char	**ft_rectangle_split(char const *s, char c);
 
 #endif

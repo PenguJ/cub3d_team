@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/22 18:26:48 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/23 18:35:29 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_info
 			int		red;
 			int		green;
 			int		blue;
+			int		rgb;
 		}	rgb_floor;
 		struct s_rgb_ceiling
 		{
@@ -71,6 +72,7 @@ typedef struct s_info
 			int		red;
 			int		green;
 			int		blue;
+			int		rgb;
 		}	rgb_ceiling;
 		struct s_north_wall
 		{

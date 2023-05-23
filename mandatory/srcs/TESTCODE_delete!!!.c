@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:18:06 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/22 19:58:59 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/23 18:47:27 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,14 @@ void	printInfo(t_info *const info)
 	printf("so is: \"%s\"\n", info->objects.south_wall.file);
 	printf("we is: \"%s\"\n", info->objects.west_wall.file);
 	printf("ea is: \"%s\"\n", info->objects.east_wall.file);
-	printf("rgb_floor: [%d, %d, %d]\n", info->objects.rgb_floor.red, \
+	printf("rgb_floor: [%d, %d, %d] = %d\n", info->objects.rgb_floor.red, \
 										info->objects.rgb_floor.green, \
-										info->objects.rgb_floor.blue);
-	printf("rgb_ceiling: [%d, %d, %d]\n", info->objects.rgb_ceiling.red, \
+										info->objects.rgb_floor.blue, \
+										info->objects.rgb_floor.rgb);
+	printf("rgb_ceiling: [%d, %d, %d] = %d\n", info->objects.rgb_ceiling.red, \
 										info->objects.rgb_ceiling.green, \
-										info->objects.rgb_ceiling.blue);
+										info->objects.rgb_ceiling.blue, \
+										info->objects.rgb_ceiling.rgb);
 	printf("width: %zu,  height: %zu\n", info->game.map.width, \
 										info->game.map.height);
 	printf("view direct: %lf\n", info->game.first_person.pov);
@@ -159,7 +161,7 @@ void	printInfo(t_info *const info)
 			else if (info->game.map.pars[y][x] == ' ')
 				printf("`");
 			else if (info->game.map.pars[y][x] == '\0')
-				printf("n");
+				printf(" ");
 			else
 				printf("@");
 

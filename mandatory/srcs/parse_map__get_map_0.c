@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:14 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/21 22:27:22 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/23 18:29:41 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	get_map(t_info *const info, int fd, char *buf)
 
 	map_line = init_map_line(info, fd, num_space);
 	get_one_line_map(info, fd, buf, &map_line);
-	info->game.map.pars = ft_split(map_line, '\n');
+	info->game.map.pars = ft_rectangle_split(map_line, '\n');
 	free(map_line);
 	if (!(info->game.map.pars))
 		exit_process("invalid *.cub form!(14)", EXIT_FAILURE, info, fd);
