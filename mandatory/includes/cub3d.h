@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 15:39:45 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 21:04:39 by leegeonha        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,12 +150,20 @@ typedef struct s_info
 		}	key_code;
 		enum e_window_size
 		{
-			win_width = 1080,
+			win_width = 1800,
 			win_height = 720
 		}	window_size;
 		void	*mlx_ptr;				//will_be_destroyed...?(can occur leaks)
 		void	*win_ptr;				//will_be_destroyed
 	}	sys;
+	struct s_screen
+	{
+		void 	*img;		//will_be_destroyed
+		char	*addr;
+		int		bits_per_pixel;
+		int		line_length;
+		int		endian;
+	} screen;
 }	t_info;
 
 //declares Functions
@@ -202,7 +210,9 @@ void	check_valid_eof(t_info *const info, int fd, bool *is, char **m);
 void	get_joined_map(t_info *const info, int fd, char *buf, \
 					char **out_map_line);
 
-//(filename).c
+// geonlee_get_background.c
+void	draw_background(t_info *info);
+void	get_screen_img(t_info *info);
 //(filename).c
 //(filename).c
 //(filename).c

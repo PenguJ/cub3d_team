@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+         #
+#    By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/21 22:25:00 by jeojeon           #+#    #+#              #
-#    Updated: 2023/05/21 22:28:18 by jeojeon          ###   ########.fr        #
+#    Updated: 2023/05/24 20:16:05 by leegeonha        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ MAND_SRCS = $(addprefix $(MAND_SRCSDIR), \
 			parse_objs__texture.c \
 			parse_objs.c \
 			TESTCODE_delete!!!.c \
+			geonlee_get_background.c \
 			)
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 MAND_INCLUDESDIR = ./mandatory/includes/

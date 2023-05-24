@@ -1,14 +1,6 @@
-typedef struct s_background
-{
-	void 	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}		t_background;
+#include "../includes/cub3d.h"
 
-//원하는 좌표에 해당하는 주소에 color값을 넣는 함수
-void    draw_background(t_background *background, int floor_color, int ceiling_color)
+void	draw_background(t_info *info)
 {
 	char	*dst;
 	int		y;
@@ -20,45 +12,48 @@ void    draw_background(t_background *background, int floor_color, int ceiling_c
 		x = 0;
 		while (x < 1080)
 		{
-			dst = background->addr + (y * background->line_length + x * (background->bits_per_pixel / 8));
+			dst = info->screen.addr + (y * info->screen.line_length + x * \
+			(info->screen.bits_per_pixel / 8));
 			if (y < 360)
-	        	*(unsigned int*)dst = ceiling_color + (256 * 256 * 256 * ((y * 255) / 360));
+				*(unsigned int*)dst = info->objects.rgb_ceiling.rgb + (256 * 256 * 256 * ((y * 255) / 360));
 			else
-				*(unsigned int*)dst = floor_color + (256 * 256 * 256 * (((720 - y) * 255) / 360));
+				*(unsigned int*)dst = info->objects.rgb_floor.rgb + (256 * 256 * 256 * (((720 - y) * 255) / 360));
 			x++;
 		}
 		y++;
 	}
 }
 
-// void *get_background_img(t_info *info)
-// {
-// 	void *bg;
-// 	char *addr;
-// 	bg = mlx_new_image(info->sys.win_ptr, 1080, 720);
-// 	background.addr = mlx_get_data_addr(background.img, &background.bits_per_pixel, &background.line_length, &background.endian);
-// }
-
-int main()
+void	get_screen_img(t_info *info)
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_background	background;
-    int floor_color;
-    int ceiling_color;
-    // floor_color = t_info->objects.rgb_floor.rgb;
-    // ceiling_color = t_info->objects.rgb_ceiling.rgb;
-    floor_color = 0x000DBFA2;
-    ceiling_color = 0x00AAAAAA;
-
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 1080, 720,"tests");
-	background.img = mlx_new_image(mlx_ptr, 1080, 720); // 이미지 객체 생성
-	background.addr = mlx_get_data_addr(background.img, &background.bits_per_pixel, &background.line_length, &background.endian); // 이미지 주소 할당
-    draw_background(&background, floor_color, ceiling_color);
-	mlx_put_image_to_window(mlx_ptr, win_ptr, background.img, 0, 0);
-	free(background.addr);
-	mlx_loop(mlx_ptr);
-	system("leaks cub3D");
-	return (0);
+	info->screen.img = mlx_new_image(info->sys.mlx_ptr, 1080, 720);
+	info->screen.addr = mlx_get_data_addr(info->screen.img, &info->screen.bits_per_pixel, \
+	&info->screen.line_length, &info->screen.endian);
+	draw_background(info);
 }
+
+//TEST
+
+// int main()
+// {
+// 	void	*mlx_ptr;
+// 	void	*win_ptr;
+// 	t_screen	screen;
+//     int floor_color;
+//     int ceiling_color;
+//     // floor_color = t_info->objects.rgb_floor.rgb;
+//     // ceiling_color = t_info->objects.rgb_ceiling.rgb;
+//     floor_color = 0x000DBFA2;
+//     ceiling_color = 0x00AAAAAA;
+
+// 	mlx_ptr = mlx_init();
+// 	win_ptr = mlx_new_window(mlx_ptr, 1080, 720,"tests");
+// 	screen.img = mlx_new_image(mlx_ptr, 1080, 720); // 이미지 객체 생성
+// 	screen.addr = mlx_get_data_addr(screen.img, &screen.bits_per_pixel, &screen.line_length, &screen.endian); // 이미지 주소 할당
+//     draw_screen(&screen, floor_color, ceiling_color);
+// 	mlx_put_image_to_window(mlx_ptr, win_ptr, screen.img, 0, 0);
+// 	free(screen.addr);
+// 	mlx_loop(mlx_ptr);
+// 	system("leaks cub3D");
+// 	return (0);
+// }

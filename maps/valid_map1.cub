@@ -1,9 +1,9 @@
 NO ./textures/xpm_imgs/texture_north_wall.xpm
 
 
-F 220,100,0
+F 220,100,10
 
-C 225,30,0     
+C 225,30,10   
 
      
 WE ./textures/xpm_imgs/texture_west_wall.xpm

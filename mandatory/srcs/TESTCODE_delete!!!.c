@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TESTCODE_delete!!!.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:18:06 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 15:44:48 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 21:13:00 by leegeonha        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	draw_ray(t_info *const info)
 
 void	put_minimap(t_info *const info)
 {
-	const int	x_coordinate = (info->game.first_person.pos.x - 0.5) * 10;
+	const int	x_coordinate = 1080 + (info->game.first_person.pos.x - 0.5) * 10;
 	const int	y_coordinate = (info->game.first_person.pos.y - 0.5) * 10;
 	size_t		x;
 	size_t		y;
@@ -121,14 +121,14 @@ void	put_minimap(t_info *const info)
 		{
 			if (info->game.map.pars[y][x] == '1')
 				mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
-					info->objects.minimap_wall.ptr, x * 10, y * 10);
+					info->objects.minimap_wall.ptr, x * 10 + 1080, y * 10);
 			++x;
 		}
 		++y;
 	}
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->objects.minimap_point.ptr, x_coordinate, y_coordinate);
-	
+	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, info->screen.img, 0, 0);
 //	draw_ray(info);
 }
 
@@ -212,12 +212,12 @@ void	mlxTest(t_info *const info)
 		exit_process("mlx_init() error!", EXIT_FAILURE, info, 0);
 	}
 	info->sys.win_ptr = mlx_new_window(info->sys.mlx_ptr, \
-		win_width, win_height, "TESTCODE");
+		win_width + 720, win_height, "TESTCODE");
 	if (!info->sys.win_ptr)
 	{
 		exit_process("mlx_new_window() error!", EXIT_FAILURE, info, 0);
 	}
-
+	get_screen_img(info);
 	//create_imgs
 	info->objects.north_wall.ptr = \
 		mlx_xpm_file_to_image(info->sys.mlx_ptr, \
@@ -291,7 +291,6 @@ void	mlxTest(t_info *const info)
 				//mlx_put_image_to_window() : put imgs to real window.
 				//mlx_xpm_file_to_image() : it is for just parsing.
 	mlx_loop_hook(info->sys.mlx_ptr, &loop_hook, info);
-
 	//infininy looping
 	mlx_loop(info->sys.mlx_ptr);
 }
