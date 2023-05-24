@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:25 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/23 18:36:05 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 15:41:43 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	init_info(t_info *const info)
 	info->game.map.pars = NULL;
 
 
-	info->game.first_person.pov = 0.0;
+	info->game.first_person.pov.x = 0.0;
+	info->game.first_person.pov.y = 0.0;
 	info->game.first_person.pos.x = 0.0;
 	info->game.first_person.pos.y = 0.0;
 
@@ -55,6 +56,18 @@ void	init_info(t_info *const info)
 	info->objects.west_wall.cols = 0;
 	info->objects.west_wall.rows = 0;
 	info->objects.west_wall.ptr = NULL;
+
+	info->objects.minimap_wall.cols = 0;
+	info->objects.minimap_wall.rows = 0;
+	info->objects.minimap_wall.ptr = NULL;
+
+	info->objects.minimap_point.cols = 0;
+	info->objects.minimap_point.rows = 0;
+	info->objects.minimap_point.ptr = NULL;
+
+	info->objects.background.cols = 0;
+	info->objects.background.rows = 0;
+	info->objects.background.ptr = NULL;
 
 
 

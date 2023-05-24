@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/23 18:35:29 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 15:39:45 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ typedef struct s_info
 		}	map;
 		struct s_first_person
 		{
-			double	pov;
+			struct s_pov
+			{
+				double	x;
+				double	y;
+			}		pov;
 			struct s_pos
 			{
 				double	x;
@@ -102,6 +106,24 @@ typedef struct s_info
 			int		rows;
 			void	*ptr;				//will_be_destroyed
 		}	west_wall;
+		struct s_minimap_wall
+		{
+			int		cols;
+			int		rows;
+			void	*ptr;				//will_be_destroyed
+		}	minimap_wall;
+		struct s_minimap_point
+		{
+			int		cols;
+			int		rows;
+			void	*ptr;				//will_be_destroyed
+		}	minimap_point;
+		struct s_background
+		{
+			int		cols;
+			int		rows;
+			void	*ptr;				//will_be_destroyed
+		}	background;
 	}	objects;
 	struct s_sys
 	{
@@ -126,6 +148,11 @@ typedef struct s_info
 			key_right = 124,
 			key_esc = 53
 		}	key_code;
+		enum e_window_size
+		{
+			win_width = 1080,
+			win_height = 720
+		}	window_size;
 		void	*mlx_ptr;				//will_be_destroyed...?(can occur leaks)
 		void	*win_ptr;				//will_be_destroyed
 	}	sys;

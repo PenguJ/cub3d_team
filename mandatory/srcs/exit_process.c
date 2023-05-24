@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:26 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/22 19:08:23 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 15:40:44 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,21 @@
 static void	destroy_all_mlx(t_info *const info)
 {
 	if (info->objects.north_wall.ptr)
-	{
 		mlx_destroy_image(info->sys.mlx_ptr, info->objects.north_wall.ptr);
-	}
 	if (info->objects.south_wall.ptr)
-	{
 		mlx_destroy_image(info->sys.mlx_ptr, info->objects.south_wall.ptr);
-	}
 	if (info->objects.east_wall.ptr)
-	{
 		mlx_destroy_image(info->sys.mlx_ptr, info->objects.east_wall.ptr);
-	}
 	if (info->objects.west_wall.ptr)
-	{
 		mlx_destroy_image(info->sys.mlx_ptr, info->objects.west_wall.ptr);
-	}
+	if (info->objects.minimap_wall.ptr)
+		mlx_destroy_image(info->sys.mlx_ptr, info->objects.minimap_wall.ptr);
+	if (info->objects.minimap_point.ptr)
+		mlx_destroy_image(info->sys.mlx_ptr, info->objects.minimap_point.ptr);
+	if (info->objects.background.ptr)
+		mlx_destroy_image(info->sys.mlx_ptr, info->objects.background.ptr);
 	if (info->sys.mlx_ptr)
-	{
 		mlx_destroy_window(info->sys.mlx_ptr, info->sys.win_ptr);
-	}
 }
 
 static void	release_all_info_data(t_info *const info)
