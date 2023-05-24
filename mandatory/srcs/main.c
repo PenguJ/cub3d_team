@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:28:57 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/22 16:03:22 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 23:29:01 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	main(int argc, char *argv[])
 	check_arg_exception(argc, argv);
 	init_info(&info);
 	parse_info(&info, argv[1]);
+	create_mlx_win_imgs(&info);
 
 printInfo(&info);
-mlxTest(&info);
 
-	//game()
+	game(&info);
 	exit_process(NULL, EXIT_SUCCESS, &info, 0);
 }

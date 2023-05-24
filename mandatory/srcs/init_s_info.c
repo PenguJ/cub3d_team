@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:25 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 16:15:16 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 22:48:39 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,13 @@ void	init_info(t_info *const info)
 	info->objects.minimap_point.rows = 0;
 	info->objects.minimap_point.ptr = NULL;
 
-	info->objects.background.cols = 0;
-	info->objects.background.rows = 0;
-	info->objects.background.ptr = NULL;
+
+
+	info->screen.img = NULL;
+	info->screen.addr = NULL;
+	info->screen.bits_per_pixel = 0;
+	info->screen.line_length = 0;
+	info->screen.endian = 0;
 
 
 

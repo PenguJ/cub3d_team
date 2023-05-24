@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 18:13:08 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 23:30:26 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,18 +116,12 @@ typedef struct s_info
 			int		rows;
 			void	*ptr;				//will_be_destroyed
 		}	minimap_wall;
-		struct s_minimap_point
+		struct s_minimap_point			//just for visualizerTesting
 		{
 			int		cols;
 			int		rows;
 			void	*ptr;				//will_be_destroyed
 		}	minimap_point;
-		struct s_background
-		{
-			int		cols;
-			int		rows;
-			void	*ptr;				//will_be_destroyed
-		}	background;
 	}	objects;
 	struct s_sys
 	{
@@ -160,25 +154,33 @@ typedef struct s_info
 		void	*mlx_ptr;				//will_be_destroyed...?(can occur leaks)
 		void	*win_ptr;				//will_be_destroyed
 	}	sys;
+	struct s_screen
+	{
+		void	*img;					//will_be_destroyed
+		char	*addr;					//is_allocated..? maybe..
+		int		bits_per_pixel;
+		int		line_length;
+		int		endian;
+	}	screen;
 }	t_info;
 
 //declares Functions
 //>>>>>>>>>>>>>>>>>>TESTCODE.c (must be deleted!)<<<<<<<<<<<<<<<<<<<
 void	check_leaks(void);
 void	printInfo(t_info *const info);
-void	mlxTest(t_info *const info);
+void	put_minimap(t_info *const info);
 
-//exit_process.c
+//		exit_process.c
 void	exit_process(char *msg, int exit_code, t_info *const info, int fd);
 
-//init_s_info.c	(must be fixed! not complete!)
+//		init_s_info.c	(must be fixed! not complete!)
 void	init_info(t_info *const info);
 
-//parse_info.c
+//		parse_info.c
 int		skip_space(int fd, char *buf);
 void	parse_info(t_info *const info, char *file_name);
 
-//	parse_objs.c
+//		parse_objs.c
 void	parse_objs(t_info *const info, int fd, char *buf);
 
 //		parse_objs__rgb.c
@@ -187,7 +189,7 @@ void	get_rgb(t_info *const info, int fd, char *buf, t_obj_id id);
 //		parse_objs__texture.c
 void	get_texfile(t_info *const info, int fd, char *buf, enum e_obj_id id);
 
-//	parse_map.c
+//		parse_map.c
 void	parse_map(t_info *const info, int fd, char *buf);
 
 //		parse_map__check_map.c
@@ -208,9 +210,14 @@ void	get_joined_map(t_info *const info, int fd, char *buf, \
 bool	is_direction(char c);
 bool	is_valid_elem(char c);
 
+//		create_mlx_win_imgs.c
+void	create_mlx_win_imgs(t_info *const info);
 
-//(filename).c
-//(filename).c
+//		create_screen_img.c
+void	create_screen_img(t_info *const info);
+
+//		game.c
+void	game(t_info *const info);
 //(filename).c
 //(filename).c
 //(filename).c
