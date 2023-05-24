@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 23:30:45 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/25 01:22:12 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,16 @@ static int	loop_hook(t_info *const info)
 {
 	mlx_hook(info->sys.win_ptr, event_destroy_notify, 0L, hook_click_x, info);
 	mlx_hook(info->sys.win_ptr, event_key_press, 0L, hook_key_press, info);
-	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
 
 	//testRaycasting & draw to screen image!
 //	test(info);
 
+	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
 
-	//testingMinimapPrint
-	put_minimap(info);
+//testingMinimapPrint
+put_minimap(info);
 
 	return (0);
 }
