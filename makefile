@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/21 22:25:00 by jeojeon           #+#    #+#              #
-#    Updated: 2023/05/21 22:28:18 by jeojeon          ###   ########.fr        #
+#    Updated: 2023/05/24 15:53:55 by jeojeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ MAND_SRCS = $(addprefix $(MAND_SRCSDIR), \
 			parse_objs__rgb.c \
 			parse_objs__texture.c \
 			parse_objs.c \
+			parse_uility.c \
 			TESTCODE_delete!!!.c \
 			)
 MAND_OBJS = $(MAND_SRCS:.c=.o)

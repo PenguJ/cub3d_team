@@ -6,25 +6,11 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:17 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 15:43:32 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 16:28:33 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-bool	is_direction(char c)
-{
-	if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
-		return (true);
-	return (false);
-}
-
-bool	is_valid_elem(char c)
-{
-	if (c == '1' || c == '0' || c == ' ' || is_direction(c))
-		return (true);
-	return (false);
-}
 
 static void	init_info_width_and_height(t_info *const info)
 {
@@ -39,6 +25,38 @@ static void	init_info_width_and_height(t_info *const info)
 	}
 }
 
+static void	init_pov(t_info *const info, char c)
+{
+	if (c == 'E')
+	{
+		info->game.fp.pov.dv_x = 1;
+		info->game.fp.pov.dv_y = 0;
+		info->game.fp.pov.scalar_x = 0;
+		info->game.fp.pov.scalar_y = FOV_HALF_SCALAR;
+	}
+	else if (c == 'N')
+	{
+		info->game.fp.pov.dv_x = 0;
+		info->game.fp.pov.dv_y = -1;
+		info->game.fp.pov.scalar_x = FOV_HALF_SCALAR;
+		info->game.fp.pov.scalar_y = 0;
+	}
+	else if (c == 'W')
+	{
+		info->game.fp.pov.dv_x = -1;
+		info->game.fp.pov.dv_y = 0;
+		info->game.fp.pov.scalar_x = 0;
+		info->game.fp.pov.scalar_y = -1 * FOV_HALF_SCALAR;
+	}
+	else if (c == 'S')
+	{
+		info->game.fp.pov.dv_x = 0;
+		info->game.fp.pov.dv_y = 1;
+		info->game.fp.pov.scalar_x = -1 * FOV_HALF_SCALAR;
+		info->game.fp.pov.scalar_y = 0;
+	}
+}
+
 static void	init_info_pov_and_pos(t_info *const info, size_t x, size_t y)
 {
 	while (y < info->game.map.height)
@@ -48,16 +66,9 @@ static void	init_info_pov_and_pos(t_info *const info, size_t x, size_t y)
 		{
 			if (is_direction(info->game.map.pars[y][x]))
 			{
-				info->game.first_person.pos.x = x + 0.5;
-				info->game.first_person.pos.y = y + 0.5;
-				// if (info->game.map.pars[y][x] == 'E')
-				// 	info->game.first_person.pov = 0;
-				// else if (info->game.map.pars[y][x] == 'N')
-				// 	info->game.first_person.pov = 90;
-				// else if (info->game.map.pars[y][x] == 'W')
-				// 	info->game.first_person.pov = 180;
-				// else if (info->game.map.pars[y][x] == 'S')
-				// 	info->game.first_person.pov = 270;
+				info->game.fp.pos.x = x + 0.5;
+				info->game.fp.pos.y = y + 0.5;
+				init_pov(info, info->game.map.pars[y][x]);
 				return ;
 			}
 			++x;

@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 15:39:45 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 18:13:08 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 //define & typedef
 # define VALID_ARGC_NUM (2)
+# define FOV_HALF_SCALAR (0.66)
+# define ANGLE_5 (M_PI / 36)
 
 typedef enum e_obj_id
 {
@@ -46,19 +48,21 @@ typedef struct s_info
 			size_t	height;
 			char	**pars;				//is_allocated
 		}	map;
-		struct s_first_person
+		struct s_fp
 		{
 			struct s_pov
 			{
-				double	x;
-				double	y;
+				double	dv_x;
+				double	dv_y;
+				double	scalar_x;
+				double	scalar_y;
 			}		pov;
 			struct s_pos
 			{
 				double	x;
 				double	y;
 			}		pos;
-		}	first_person;
+		}	fp;
 	}	game;
 	struct s_objects
 	{
@@ -184,8 +188,6 @@ void	get_rgb(t_info *const info, int fd, char *buf, t_obj_id id);
 void	get_texfile(t_info *const info, int fd, char *buf, enum e_obj_id id);
 
 //	parse_map.c
-bool	is_direction(char c);
-bool	is_valid_elem(char c);
 void	parse_map(t_info *const info, int fd, char *buf);
 
 //		parse_map__check_map.c
@@ -202,7 +204,11 @@ void	check_valid_eof(t_info *const info, int fd, bool *is, char **m);
 void	get_joined_map(t_info *const info, int fd, char *buf, \
 					char **out_map_line);
 
-//(filename).c
+//		parse_utility.c
+bool	is_direction(char c);
+bool	is_valid_elem(char c);
+
+
 //(filename).c
 //(filename).c
 //(filename).c

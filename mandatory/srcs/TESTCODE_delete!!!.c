@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:18:06 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 15:44:48 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 21:39:08 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	printInfo(t_info *const info)
 										info->objects.rgb_ceiling.rgb);
 	printf("width: %zu,  height: %zu\n", info->game.map.width, \
 										info->game.map.height);
-	printf("pos_x: %lf,   pos_y: %lf\n", info->game.first_person.pov.x, \
-										info->game.first_person.pov.y);
-	printf("pos_x: %lf,   pos_y: %lf\n", info->game.first_person.pos.x, \
-										info->game.first_person.pos.y);
+	printf("pos_x: %lf,   pos_y: %lf\n", info->game.fp.pov.dv_x, \
+										info->game.fp.pov.dv_y);
+	printf("pos_x: %lf,   pos_y: %lf\n", info->game.fp.pos.x, \
+										info->game.fp.pos.y);
 	for (size_t idx = 0; info->game.map.pars[idx]; ++idx)
 		printf("|%s|\n", info->game.map.pars[idx]);
 	printf("\n\n\ntmpTEST\n\n");
@@ -79,37 +79,18 @@ void	printInfo(t_info *const info)
 
 
 //MLX_TESTCODE	(order: {EVENT(hook) -> LOGIC} -> UPDATE -> {CLEAR -> PRINT})
-
-void	draw_ray(t_info *const info)
-{
-	int		x_pixel;
-	int		y_pixel;
-	bool	x_hit;
-	bool	y_hit;
-
-	x_hit = false;
-	y_hit = false;
-	x_pixel = (info->game.first_person.pos.x) * 10;
-	y_pixel = (info->game.first_person.pos.y) * 10;
-	while (!x_hit && !y_hit)
-	{
-		mlx_pixel_put(info->sys.mlx_ptr, info->sys.win_ptr, \
-			x_pixel, y_pixel, 0xFF6464);
-		if (x_pixel == 0 || y_pixel == 0 || \
-			x_pixel == win_width || y_pixel == win_height)
-		{
-			x_hit = true;
-			y_hit = true;
-		}
-		++x_pixel;
-		--y_pixel;
-	}
-}
+//0xFF6464
+// void	draw_ray(t_info *const info)
+// {
+// 	double posX = info->game.fp.pos.x;
+// 	double posY = info->game.fp.pos.y;
+// 	double dirX = info->game.
+// }
 
 void	put_minimap(t_info *const info)
 {
-	const int	x_coordinate = (info->game.first_person.pos.x - 0.5) * 10;
-	const int	y_coordinate = (info->game.first_person.pos.y - 0.5) * 10;
+	const int	x_coordinate = (info->game.fp.pos.x - 0.5) * 10;
+	const int	y_coordinate = (info->game.fp.pos.y - 0.5) * 10;
 	size_t		x;
 	size_t		y;
 
@@ -128,8 +109,13 @@ void	put_minimap(t_info *const info)
 	}
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->objects.minimap_point.ptr, x_coordinate, y_coordinate);
+}
+
+void	raycasting(t_info *const info)
+{
+	double posX = 22, posY = 12;
 	
-//	draw_ray(info);
+
 }
 
 
@@ -150,31 +136,41 @@ int	hook_click_x(t_info *const info)
 int	key_press(int key, t_info *const info)
 {
 	if (key == key_w)
-		info->game.first_person.pos.y -= 0.1;
+		info->game.fp.pos.y -= 0.1;
 	else if (key == key_s)
-		info->game.first_person.pos.y += 0.1;
+		info->game.fp.pos.y += 0.1;
 	else if (key == key_a)
-		info->game.first_person.pos.x -= 0.1;
+		info->game.fp.pos.x -= 0.1;
 	else if (key == key_d)
-		info->game.first_person.pos.x += 0.1;
+		info->game.fp.pos.x += 0.1;
 	else if (key == key_left)
 	{
-		// if (info->game.first_person.pov == 360)
-		// 	info->game.first_person.pov = 0;
-		// info->game.first_person.pov += 1;
+		info->game.fp.pov.dv_x = \
+			(info->game.fp.pov.dv_x * cos(-1 * ANGLE_5)) \
+			- \
+			(info->game.fp.pov.dv_y * sin(-1 * ANGLE_5));
+		info->game.fp.pov.dv_y = \
+			(info->game.fp.pov.dv_x * sin(-1 * ANGLE_5)) \
+			+ \
+			(info->game.fp.pov.dv_y * cos(-1 * ANGLE_5));
 	}
 	else if (key == key_right)
 	{
-		// if (info->game.first_person.pov == 0)
-		// 	info->game.first_person.pov = 360;
-		// info->game.first_person.pov -= 1;
+		info->game.fp.pov.dv_x = \
+			(info->game.fp.pov.dv_x * cos(ANGLE_5)) \
+			- \
+			(info->game.fp.pov.dv_y * sin(ANGLE_5));
+		info->game.fp.pov.dv_y = \
+			(info->game.fp.pov.dv_x * sin(ANGLE_5)) \
+			+ \
+			(info->game.fp.pov.dv_y * cos(ANGLE_5));
 	}
 	else if (key == key_esc)
 		exit_process(NULL, EXIT_SUCCESS, info, 0);
-printf("pos_x: %lf,   pos_y: %lf\n", info->game.first_person.pos.x, \
-							info->game.first_person.pos.y);
-printf("pov_x: %lf,   pov_y: %lf\n", info->game.first_person.pov.x, \
-							info->game.first_person.pov.y);
+printf("pos_x: %lf,   pos_y: %lf\n", info->game.fp.pos.x, \
+							info->game.fp.pos.y);
+printf("pov_x: %lf,   pov_y: %lf\n", info->game.fp.pov.dv_x, \
+							info->game.fp.pov.dv_y);
 	return (0);
 }
 
@@ -192,6 +188,7 @@ int	loop_hook(t_info *const info)
 	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
 //	put_test_image(info);
 	put_minimap(info);
+	raycasting(info);
 	return (0);
 }
 
