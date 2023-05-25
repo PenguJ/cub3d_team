@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 23:30:26 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:59:10 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ typedef struct s_info
 			{
 				double	dv_x;
 				double	dv_y;
+				double	dv_now_x;
+				double	dv_now_y;
+				int		radian;
 				double	scalar_x;
 				double	scalar_y;
 			}		pov;

@@ -6,7 +6,7 @@
 /*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 22:42:54 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/25 15:37:21 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/25 17:03:57 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ void	create_screen_img(t_info *const info)
 	if (!info->screen.addr)
 		exit_process("mlx_get_data_addr() error", EXIT_FAILURE, info, 0);
 	draw_background(info);
+	// draw_ray(info); 
 }

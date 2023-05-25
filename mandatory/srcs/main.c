@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:28:57 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 23:29:01 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/25 17:00:15 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char *argv[])
 	init_info(&info);
 	parse_info(&info, argv[1]);
 	create_mlx_win_imgs(&info);
-
+	info.game.fp.pov.radian = 0;
 printInfo(&info);
 
 	game(&info);
