@@ -31,8 +31,12 @@ static void	callocate_color_strs(t_info *const info, int fd, char ***out_strs)
 	if (idx != 3)
 	{
 		if (idx != 0)
-			while (idx >= 0)
+			while (idx > 0)
+			{
 				free((*out_strs)[idx--]);
+				if (idx == 0)
+					break;
+			}
 		free(*out_strs);
 		exit_process("ft_calloc() error", EXIT_FAILURE, info, fd);
 	}

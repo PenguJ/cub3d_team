@@ -65,11 +65,14 @@ typedef struct s_info
 				double	camera_coor_oper;
 				double	ray_dv_x;
 				double	ray_dv_y;
-				/*
 				double	pos_dist_x;
 				double	pos_dist_y;
+				double	side_dist_x;
+				double	side_dist_y;
+				double	delta_dist_x;
+				double	delta_dist_y;
 				double	perp_wall_dist;
-				*/
+				int		line_height;
 			}		fov;
 			struct s_pos
 			{
