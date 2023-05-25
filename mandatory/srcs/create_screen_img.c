@@ -3,16 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   create_screen_img.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 22:42:54 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/25 17:03:57 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/26 07:59:46 by leegeonha        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static void	draw_background(t_info *const info)
+void	draw_black_background(t_info *const info)
+{
+	char	*dst;
+	int		x;
+	int		y;
+
+	y = 0;
+	while (y < win_height)
+	{
+		x = 0;
+		while (x < win_width)
+		{
+			dst = info->screen.addr + (y * info->screen.line_length + x * \
+				(info->screen.bits_per_pixel / 8));
+			*(unsigned int *)dst = 0x00000000;
+			++x;
+		}
+		++y;
+	}
+}
+
+void	draw_background(t_info *const info)
 {
 	char	*dst;
 	int		x;

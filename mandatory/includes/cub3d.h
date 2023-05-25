@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/25 23:46:47 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/26 08:03:45 by leegeonha        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,9 +232,12 @@ void	create_mlx_win_imgs(t_info *const info);
 
 //		create_screen_img.c
 void	create_screen_img(t_info *const info);
+void	draw_background(t_info *const info);
+void	draw_black_background(t_info *const info);
 
 //		game.c
 void	game(t_info *const info);
+void	draw_screen_img(t_info *const info);
 //(filename).c
 //(filename).c
 //(filename).c
