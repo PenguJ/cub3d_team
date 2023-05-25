@@ -37,7 +37,7 @@ int	main(int argc, char *argv[])
 	init_info(&info);
 	parse_info(&info, argv[1]);
 	create_mlx_win_imgs(&info);
-	info.game.fp.pov.radian = 0;
+
 printInfo(&info);
 
 	game(&info);

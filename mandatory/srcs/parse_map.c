@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:17 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 16:28:33 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/25 18:13:20 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,29 @@ static void	init_pov(t_info *const info, char c)
 	{
 		info->game.fp.pov.dv_x = 1;
 		info->game.fp.pov.dv_y = 0;
-		info->game.fp.pov.scalar_x = 0;
-		info->game.fp.pov.scalar_y = FOV_HALF_SCALAR;
+		info->game.fp.pov.plain_x = 0;
+		info->game.fp.pov.plain_y = FOV_HALF_SCALAR;
 	}
 	else if (c == 'N')
 	{
 		info->game.fp.pov.dv_x = 0;
 		info->game.fp.pov.dv_y = -1;
-		info->game.fp.pov.scalar_x = FOV_HALF_SCALAR;
-		info->game.fp.pov.scalar_y = 0;
+		info->game.fp.pov.plain_x = FOV_HALF_SCALAR;
+		info->game.fp.pov.plain_y = 0;
 	}
 	else if (c == 'W')
 	{
 		info->game.fp.pov.dv_x = -1;
 		info->game.fp.pov.dv_y = 0;
-		info->game.fp.pov.scalar_x = 0;
-		info->game.fp.pov.scalar_y = -1 * FOV_HALF_SCALAR;
+		info->game.fp.pov.plain_x = 0;
+		info->game.fp.pov.plain_y = -1 * FOV_HALF_SCALAR;
 	}
 	else if (c == 'S')
 	{
 		info->game.fp.pov.dv_x = 0;
 		info->game.fp.pov.dv_y = 1;
-		info->game.fp.pov.scalar_x = -1 * FOV_HALF_SCALAR;
-		info->game.fp.pov.scalar_y = 0;
+		info->game.fp.pov.plain_x = -1 * FOV_HALF_SCALAR;
+		info->game.fp.pov.plain_y = 0;
 	}
 }
 
