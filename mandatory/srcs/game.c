@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/25 17:54:10 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/26 01:52:16 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static int	hook_click_x(t_info *const info)
+int	hook_click_x(t_info *const info)
 {
 	exit_process(NULL, EXIT_SUCCESS, info, 0);
 	return (0);
 }
 
-static int	hook_key_press(int key, t_info *const info)
+int	hook_key_press(int key, t_info *const info)
 {
 	if (key == key_w)
 		info->game.fp.pos.y -= 0.1;
@@ -33,81 +33,98 @@ static int	hook_key_press(int key, t_info *const info)
 		info->game.fp.pov.cnt--;
 		if (info->game.fp.pov.cnt == -1)
 			info->game.fp.pov.cnt = 71;
-		info->game.fp.pov.dv_now_x = \
-			(info->game.fp.pov.dv_x * cos(ANGLE_5 * info->game.fp.pov.cnt)) \
+		info->game.fp.pov.dv_x = \
+			(info->game.fp.pov.initial_dv_x * \
+				cos(ANGLE_5 * info->game.fp.pov.cnt)) \
 			- \
-			(info->game.fp.pov.dv_y * sin(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.pov.dv_now_y = \
-			(info->game.fp.pov.dv_x * sin(ANGLE_5 * info->game.fp.pov.cnt)) \
+			(info->game.fp.pov.initial_dv_y * \
+				sin(ANGLE_5 * info->game.fp.pov.cnt));
+		info->game.fp.pov.dv_y = \
+			(info->game.fp.pov.initial_dv_x * \
+				sin(ANGLE_5 * info->game.fp.pov.cnt)) \
 			+ \
-			(info->game.fp.pov.dv_y * cos(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.pov.plain_x = info->game.fp.pov.dv_now_y * FOV_HALF_SCALAR;
-		info->game.fp.pov.plain_y = info->game.fp.pov.dv_now_x * -1 * \
-																FOV_HALF_SCALAR;
+			(info->game.fp.pov.initial_dv_y * \
+				cos(ANGLE_5 * info->game.fp.pov.cnt));
+		info->game.fp.fov.plain_x = \
+			info->game.fp.pov.dv_y * FOV_HALF_SCALAR;
+		info->game.fp.fov.plain_y = \
+			info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
 	}
 	else if (key == key_right)
 	{
 		info->game.fp.pov.cnt++;
 		if (info->game.fp.pov.cnt == 72)
 			info->game.fp.pov.cnt = 0;
-		info->game.fp.pov.dv_now_x = \
-			(info->game.fp.pov.dv_x * cos(ANGLE_5 * info->game.fp.pov.cnt)) \
+		info->game.fp.pov.dv_x = \
+			(info->game.fp.pov.initial_dv_x * \
+				cos(ANGLE_5 * info->game.fp.pov.cnt)) \
 			- \
-			(info->game.fp.pov.dv_y * sin(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.pov.dv_now_y = \
-			(info->game.fp.pov.dv_x * sin(ANGLE_5 * info->game.fp.pov.cnt)) \
+			(info->game.fp.pov.initial_dv_y * \
+				sin(ANGLE_5 * info->game.fp.pov.cnt));
+		info->game.fp.pov.dv_y = \
+			(info->game.fp.pov.initial_dv_x * \
+				sin(ANGLE_5 * info->game.fp.pov.cnt)) \
 			+ \
-			(info->game.fp.pov.dv_y * cos(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.pov.plain_x = info->game.fp.pov.dv_now_y * FOV_HALF_SCALAR;
-		info->game.fp.pov.plain_y = info->game.fp.pov.dv_now_x * -1 * \
-																FOV_HALF_SCALAR;
+			(info->game.fp.pov.initial_dv_y * \
+				cos(ANGLE_5 * info->game.fp.pov.cnt));
+		info->game.fp.fov.plain_x = \
+			info->game.fp.pov.dv_y * FOV_HALF_SCALAR;
+		info->game.fp.fov.plain_y = \
+			info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
 	}
 	else if (key == key_esc)
 		exit_process(NULL, EXIT_SUCCESS, info, 0);
 printf("pos_x: %lf,   pos_y: %lf\n", info->game.fp.pos.x, \
 							info->game.fp.pos.y);
-printf("pov_now_x: %lf,   pov_now_y: %lf\n", info->game.fp.pov.dv_now_x, \
-							info->game.fp.pov.dv_now_y);
-printf("plain_x: %lf,   plain_y: %lf\n", info->game.fp.pov.plain_x, \
-							info->game.fp.pov.plain_y);
+printf("pov_now_x: %lf,   pov_now_y: %lf\n", info->game.fp.pov.dv_x, \
+							info->game.fp.pov.dv_y);
+printf("plain_x: %lf,   plain_y: %lf\n", info->game.fp.fov.plain_x, \
+							info->game.fp.fov.plain_y);
 	return (0);
 }
 
 
 
-void	test_ray(t_info *const info)
+void	get_ray_dv(t_info *const info, int i)
 {
-//vars for ray
-	int		i;
-	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
+	info->game.fp.fov.camera_coor_oper = ((2 * i) / win_width) - 1;
+	info->game.fp.fov.ray_dv_x = \
+		info->game.fp.pos.x \
+		+ \
+		info->game.fp.fov.plain_x * info->game.fp.fov.camera_coor_oper;
+	info->game.fp.fov.ray_dv_y = \
+		info->game.fp.pos.y \
+		+ \
+		info->game.fp.fov.plain_y * info->game.fp.fov.camera_coor_oper;
+}
 
-//vars for dda
-	double
+void	draw_wall_using_raycast(t_info *const info)
+{
+	int	i;
 
-	camera_x = 0.0;
-	ray_dir_x = 0.0;
-	ray_dir_y = 0.0;
 	i = 0;
 	while (i < win_width)
 	{
-		camera_x = (2 * i) / win_width - 1;
-		ray_dir_x = info->fp.pos.x + info->fp.pov.plain_x * camera_x;
-		ray_dir_y = info->fp.pos.y + info->fp.pov.plain_y * camera_x;
+		get_ray_dv(info, i);
+		//get_ray_hit_distance_and_side_using_dda();
+		//get_height_of_wall()
+			//get_vertical_distance_from_wall_to_pos();
+		//draw_wall
 		++i;
 	}
 }
 
-
+void	draw_screen_img(t_info *const info)
+{
+	//paint_floor_and_ceiling(info);
+	draw_wall_using_raycast(info);
+}
 
 static int	loop_hook(t_info *const info)
 {
 	mlx_hook(info->sys.win_ptr, event_destroy_notify, 0L, hook_click_x, info);
 	mlx_hook(info->sys.win_ptr, event_key_press, 0L, hook_key_press, info);
-
-	//testRaycasting & draw to screen image!
-	test_ray(info);
+	draw_screen_img(info);
 	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
@@ -115,6 +132,7 @@ static int	loop_hook(t_info *const info)
 //testingMinimapPrint
 put_minimap(info);
 
+	//paint_black_to_screen_img(info);
 	return (0);
 }
 

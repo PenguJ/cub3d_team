@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:25 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 22:48:39 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/25 23:48:02 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,17 @@ void	init_info(t_info *const info)
 	info->game.map.pars = NULL;
 
 
+	info->game.fp.pov.initial_dv_x = 0.0;
+	info->game.fp.pov.initial_dv_y = 0.0;
 	info->game.fp.pov.dv_x = 0.0;
 	info->game.fp.pov.dv_y = 0.0;
-	info->game.fp.pov.plain_x = 0.0;
-	info->game.fp.pov.plain_y = 0.0;
 	info->game.fp.pov.cnt = 0;
+	info->game.fp.fov.plain_x = 0.0;
+	info->game.fp.fov.plain_y = 0.0;
+	info->game.fp.fov.camera_coor_oper = 0.0;
+	info->game.fp.fov.ray_dv_x = 0.0;
+	info->game.fp.fov.ray_dv_y = 0.0;
+
 	info->game.fp.pos.x = 0.0;
 	info->game.fp.pos.y = 0.0;
 

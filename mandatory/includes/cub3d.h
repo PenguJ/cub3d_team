@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/25 18:13:06 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/25 23:46:47 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,25 @@ typedef struct s_info
 		{
 			struct s_pov
 			{
+				double	initial_dv_x;
+				double	initial_dv_y;
 				double	dv_x;
 				double	dv_y;
-				double	dv_now_x;
-				double	dv_now_y;
 				int		cnt;
+			}		pov;
+			struct s_fov
+			{
 				double	plain_x;
 				double	plain_y;
-			}		pov;
+				double	camera_coor_oper;
+				double	ray_dv_x;
+				double	ray_dv_y;
+				/*
+				double	pos_dist_x;
+				double	pos_dist_y;
+				double	perp_wall_dist;
+				*/
+			}		fov;
 			struct s_pos
 			{
 				double	x;
