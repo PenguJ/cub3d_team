@@ -41,8 +41,9 @@ static int	hook_key_press(int key, t_info *const info)
 			(info->game.fp.pov.dv_x * sin(ANGLE_5 * info->game.fp.pov.cnt)) \
 			+ \
 			(info->game.fp.pov.dv_y * cos(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.pov.plain_x = info->game.fp.pov.dv_now_y;
-		info->game.fp.pov.plain_y = info->game.fp.pov.dv_now_x * -1;
+		info->game.fp.pov.plain_x = info->game.fp.pov.dv_now_y * FOV_HALF_SCALAR;
+		info->game.fp.pov.plain_y = info->game.fp.pov.dv_now_x * -1 * \
+																FOV_HALF_SCALAR;
 	}
 	else if (key == key_right)
 	{
@@ -57,8 +58,9 @@ static int	hook_key_press(int key, t_info *const info)
 			(info->game.fp.pov.dv_x * sin(ANGLE_5 * info->game.fp.pov.cnt)) \
 			+ \
 			(info->game.fp.pov.dv_y * cos(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.pov.plain_x = info->game.fp.pov.dv_now_y;
-		info->game.fp.pov.plain_y = info->game.fp.pov.dv_now_x * -1;
+		info->game.fp.pov.plain_x = info->game.fp.pov.dv_now_y * FOV_HALF_SCALAR;
+		info->game.fp.pov.plain_y = info->game.fp.pov.dv_now_x * -1 * \
+																FOV_HALF_SCALAR;
 	}
 	else if (key == key_esc)
 		exit_process(NULL, EXIT_SUCCESS, info, 0);

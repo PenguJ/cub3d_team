@@ -62,6 +62,8 @@ TO_DO : mlx, raycasting(dda algorithm) 공부 및 연습
 >
 * 회전 미세하게 어긋나는 부분 고침. old direction vector를 저장해놓고, 그것을 기준으로 각도 연산을 하는 방식. 부동소수점에 대한 거듭된 연산으로 인해 어긋나는 부분 fix.
 
+* rotate에 plain_dir_vector 연산도 추가. 나중에 레이케스팅할 땐 뒤에 곱연산을 plain으로 하면 됨.
+
 
 
 ...what more?
