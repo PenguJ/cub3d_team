@@ -30,33 +30,33 @@ static int	hook_key_press(int key, t_info *const info)
 		info->game.fp.pos.x += 0.1;
 	else if (key == key_left)
 	{
-		info->game.fp.pov.radian--;
-		if (info->game.fp.pov.radian == -1)
-			info->game.fp.pov.radian = 71;
+		info->game.fp.pov.cnt--;
+		if (info->game.fp.pov.cnt == -1)
+			info->game.fp.pov.cnt = 71;
 		info->game.fp.pov.dv_now_x = \
-			(info->game.fp.pov.dv_x * cos(ANGLE_5 * info->game.fp.pov.radian)) \
+			(info->game.fp.pov.dv_x * cos(ANGLE_5 * info->game.fp.pov.cnt)) \
 			- \
-			(info->game.fp.pov.dv_y * sin(ANGLE_5 * info->game.fp.pov.radian));
+			(info->game.fp.pov.dv_y * sin(ANGLE_5 * info->game.fp.pov.cnt));
 		info->game.fp.pov.dv_now_y = \
-			(info->game.fp.pov.dv_x * sin(ANGLE_5 * info->game.fp.pov.radian)) \
+			(info->game.fp.pov.dv_x * sin(ANGLE_5 * info->game.fp.pov.cnt)) \
 			+ \
-			(info->game.fp.pov.dv_y * cos(ANGLE_5 * info->game.fp.pov.radian));
+			(info->game.fp.pov.dv_y * cos(ANGLE_5 * info->game.fp.pov.cnt));
 		info->game.fp.pov.plain_x = info->game.fp.pov.dv_now_y;
 		info->game.fp.pov.plain_y = info->game.fp.pov.dv_now_x * -1;
 	}
 	else if (key == key_right)
 	{
-		info->game.fp.pov.radian++;
-		if (info->game.fp.pov.radian == 72)
-			info->game.fp.pov.radian = 0;
+		info->game.fp.pov.cnt++;
+		if (info->game.fp.pov.cnt == 72)
+			info->game.fp.pov.cnt = 0;
 		info->game.fp.pov.dv_now_x = \
-			(info->game.fp.pov.dv_x * cos(ANGLE_5 * info->game.fp.pov.radian)) \
+			(info->game.fp.pov.dv_x * cos(ANGLE_5 * info->game.fp.pov.cnt)) \
 			- \
-			(info->game.fp.pov.dv_y * sin(ANGLE_5 * info->game.fp.pov.radian));
+			(info->game.fp.pov.dv_y * sin(ANGLE_5 * info->game.fp.pov.cnt));
 		info->game.fp.pov.dv_now_y = \
-			(info->game.fp.pov.dv_x * sin(ANGLE_5 * info->game.fp.pov.radian)) \
+			(info->game.fp.pov.dv_x * sin(ANGLE_5 * info->game.fp.pov.cnt)) \
 			+ \
-			(info->game.fp.pov.dv_y * cos(ANGLE_5 * info->game.fp.pov.radian));
+			(info->game.fp.pov.dv_y * cos(ANGLE_5 * info->game.fp.pov.cnt));
 		info->game.fp.pov.plain_x = info->game.fp.pov.dv_now_y;
 		info->game.fp.pov.plain_y = info->game.fp.pov.dv_now_x * -1;
 	}

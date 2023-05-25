@@ -23,7 +23,7 @@ void	init_info(t_info *const info)
 	info->game.fp.pov.dv_y = 0.0;
 	info->game.fp.pov.plain_x = 0.0;
 	info->game.fp.pov.plain_y = 0.0;
-	info->game.fp.pov.radian = 0;
+	info->game.fp.pov.cnt = 0;
 	info->game.fp.pos.x = 0.0;
 	info->game.fp.pos.y = 0.0;
 

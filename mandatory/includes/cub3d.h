@@ -56,7 +56,7 @@ typedef struct s_info
 				double	dv_y;
 				double	dv_now_x;
 				double	dv_now_y;
-				int		radian;
+				int		cnt;
 				double	plain_x;
 				double	plain_y;
 			}		pov;
