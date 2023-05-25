@@ -73,14 +73,41 @@ printf("plain_x: %lf,   plain_y: %lf\n", info->game.fp.pov.plain_x, \
 	return (0);
 }
 
+
+
+void	test_ray(t_info *const info)
+{
+//vars for ray
+	int		i;
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+
+//vars for dda
+	double
+
+	camera_x = 0.0;
+	ray_dir_x = 0.0;
+	ray_dir_y = 0.0;
+	i = 0;
+	while (i < win_width)
+	{
+		camera_x = (2 * i) / win_width - 1;
+		ray_dir_x = info->fp.pos.x + info->fp.pov.plain_x * camera_x;
+		ray_dir_y = info->fp.pos.y + info->fp.pov.plain_y * camera_x;
+		++i;
+	}
+}
+
+
+
 static int	loop_hook(t_info *const info)
 {
 	mlx_hook(info->sys.win_ptr, event_destroy_notify, 0L, hook_click_x, info);
 	mlx_hook(info->sys.win_ptr, event_key_press, 0L, hook_key_press, info);
 
 	//testRaycasting & draw to screen image!
-//	test(info);
-
+	test_ray(info);
 	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
