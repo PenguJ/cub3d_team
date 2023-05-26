@@ -89,6 +89,6 @@ void	create_mlx_win_imgs(t_info *const info)
 	create_texture_imgs_1(info);
 	create_texture_imgs_2(info);
 	create_minimap_imgs(info);
-	check_xpm_imgs_create_err(info); // 여기서 먼가 에러남
+	check_xpm_imgs_create_err(info);
 	create_screen_img(info);
 }

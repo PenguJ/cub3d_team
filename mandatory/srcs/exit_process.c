@@ -54,6 +54,7 @@ void	exit_process(char *msg, int exit_code, t_info *const info, int fd)
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putendl_fd(msg, STDERR_FILENO);
 	}
+	free(info);
 //check_leaks();  //must will be deleted! (and double check using loop leaks cmd)
 	exit(exit_code);
 }

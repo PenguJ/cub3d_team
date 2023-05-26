@@ -27,6 +27,7 @@
 # define VALID_ARGC_NUM (2)
 # define FOV_HALF_SCALAR (0.66)
 # define ANGLE_5 (M_PI / 36)
+# define MOVE_SPEED (0.1)
 
 typedef enum e_obj_id
 {
@@ -38,7 +39,7 @@ typedef enum e_obj_id
 	id_west_wall
 }	t_obj_id;
 
-typedef struct s_info
+typedef struct s_info					//is_allocated
 {
 	struct s_game
 	{

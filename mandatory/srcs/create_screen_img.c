@@ -68,6 +68,7 @@ void	create_screen_img(t_info *const info)
 						&info->screen.bits_per_pixel, \
 						&info->screen.line_length, \
 						&info->screen.endian);
+printf("%d,   %d,   %d\n", info->screen.bits_per_pixel, info->screen.line_length, info->screen.endian);
 	if (!info->screen.addr)
 		exit_process("mlx_get_data_addr() error", EXIT_FAILURE, info, 0);
 }

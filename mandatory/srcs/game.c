@@ -21,13 +21,25 @@ int	hook_click_x(t_info *const info)
 int	hook_key_press(int key, t_info *const info)
 {
 	if (key == key_w)
-		info->game.fp.pos.y -= 0.1;
+	{
+		info->game.fp.pos.x += info->game.fp.pov.dv_x * MOVE_SPEED;
+		info->game.fp.pos.y += info->game.fp.pov.dv_y * MOVE_SPEED;
+	}
 	else if (key == key_s)
-		info->game.fp.pos.y += 0.1;
+	{
+		info->game.fp.pos.x -= info->game.fp.pov.dv_x * MOVE_SPEED;
+		info->game.fp.pos.y -= info->game.fp.pov.dv_y * MOVE_SPEED;
+	}
 	else if (key == key_d)
-		info->game.fp.pos.x -= 0.1;
+	{
+		info->game.fp.pos.x += info->game.fp.pov.dv_y * MOVE_SPEED;
+		info->game.fp.pos.y -= info->game.fp.pov.dv_x * MOVE_SPEED;
+	}
 	else if (key == key_a)
-		info->game.fp.pos.x += 0.1;
+	{
+		info->game.fp.pos.x -= info->game.fp.pov.dv_y * MOVE_SPEED;
+		info->game.fp.pos.y += info->game.fp.pov.dv_x * MOVE_SPEED;
+	}
 	else if (key == key_right)
 	{
 		info->game.fp.pov.cnt--;
@@ -191,7 +203,6 @@ void	draw_raycasted_pixel(t_info *info, int i)
 		draw_start++;
 		cnt++;
 	}
-	// printf("i : %d , cnt : %d \n",i,cnt);
 }
 
 
@@ -221,16 +232,14 @@ static int	loop_hook(t_info *const info)
 {
 	mlx_hook(info->sys.win_ptr, event_destroy_notify, 0L, hook_click_x, info);
 	mlx_hook(info->sys.win_ptr, event_key_press, 0L, hook_key_press, info);
-//testingMinimapPrint
-// put_minimap(info);
 	return (0);
 }
 
 void	game(t_info *const info)
 {
+	mlx_loop_hook(info->sys.mlx_ptr, &loop_hook, info);
 	draw_screen_img(info);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
-	mlx_loop_hook(info->sys.mlx_ptr, &loop_hook, info);
 	mlx_loop(info->sys.mlx_ptr);
 }

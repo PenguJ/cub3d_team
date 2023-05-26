@@ -31,14 +31,17 @@ static void	check_arg_exception(int argc, char *argv[])
 
 int	main(int argc, char *argv[])
 {
-	t_info	info;
+	t_info	*info;
 
+	info = ft_calloc(1, sizeof(t_info));
+	if (!info)
+		exit_process("ft_calloc() error", EXIT_FAILURE, NULL, 0);
 	check_arg_exception(argc, argv);
-	init_info(&info);
-	parse_info(&info, argv[1]);
-	create_mlx_win_imgs(&info);
-printInfo(&info);
+	init_info(info);
+	parse_info(info, argv[1]);
+	create_mlx_win_imgs(info);
+printInfo(info);
 
-	game(&info);
-	exit_process(NULL, EXIT_SUCCESS, &info, 0);
+	game(info);
+	exit_process(NULL, EXIT_SUCCESS, info, 0);
 }

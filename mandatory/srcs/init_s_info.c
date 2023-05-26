@@ -24,11 +24,21 @@ void	init_info(t_info *const info)
 	info->game.fp.pov.dv_x = 0.0;
 	info->game.fp.pov.dv_y = 0.0;
 	info->game.fp.pov.cnt = 0;
+
 	info->game.fp.fov.plain_x = 0.0;
 	info->game.fp.fov.plain_y = 0.0;
 	info->game.fp.fov.camera_coor_oper = 0.0;
 	info->game.fp.fov.ray_dv_x = 0.0;
 	info->game.fp.fov.ray_dv_y = 0.0;
+	info->game.fp.fov.pos_dist_x = 0.0;
+	info->game.fp.fov.pos_dist_y = 0.0;
+	info->game.fp.fov.side_dist_x = 0.0;
+	info->game.fp.fov.side_dist_y = 0.0;
+	info->game.fp.fov.delta_dist_x = 0.0;
+	info->game.fp.fov.delta_dist_y = 0.0;
+	info->game.fp.fov.side = 0;
+	info->game.fp.fov.step_x = 0;
+	info->game.fp.fov.step_y = 0;
 
 	info->game.fp.pos.x = 0.0;
 	info->game.fp.pos.y = 0.0;
@@ -75,13 +85,11 @@ void	init_info(t_info *const info)
 	info->objects.minimap_point.ptr = NULL;
 
 
-
 	info->screen.img = NULL;
 	info->screen.addr = NULL;
 	info->screen.bits_per_pixel = 0;
 	info->screen.line_length = 0;
 	info->screen.endian = 0;
-
 
 
 	info->sys.mlx_ptr = NULL;
