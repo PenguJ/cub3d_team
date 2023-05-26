@@ -6,7 +6,7 @@
 /*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 09:52:22 by leegeonha        ###   ########.fr       */
+/*   Updated: 2023/05/26 10:34:59 by leegeonha        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	hook_key_press(int key, t_info *const info)
 		info->game.fp.pos.y -= 0.1;
 	else if (key == key_s)
 		info->game.fp.pos.y += 0.1;
-	else if (key == key_a)
-		info->game.fp.pos.x -= 0.1;
 	else if (key == key_d)
+		info->game.fp.pos.x -= 0.1;
+	else if (key == key_a)
 		info->game.fp.pos.x += 0.1;
 	else if (key == key_right)
 	{
@@ -131,11 +131,22 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 {
 	int x;
 	int y;
+	int side;
 
 	x = (int)floor(info->game.fp.pos.x);
 	y = (int)floor(info->game.fp.pos.y);
 	while (1)
 	{
+		if (info->game.map.pars[y][x] == '1')
+		{
+			if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
+				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_x;
+			else
+				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_y;
+			printf("%f %f %f ",info->game.fp.fov.side_dist_x,info->game.fp.fov.side_dist_y,info->game.fp.fov.perp_wall_dist);
+			info->game.fp.fov.line_height = (int)(win_width / info->game.fp.fov.perp_wall_dist);
+			break;
+		}
 		if (info->game.fp.fov.ray_dv_x != 0.00000000 && \
 		info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
 		{
@@ -144,6 +155,7 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 				x++;
 			else
 				x--;
+			side = 0;
 		}
 		else if (info->game.fp.fov.ray_dv_y != 0.00000000 && \
 			info->game.fp.fov.side_dist_x >= info->game.fp.fov.side_dist_y)
@@ -153,16 +165,7 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 				y++;
 			else
 				y--;
-		}
-		if (info->game.map.pars[y][x] == '1')
-		{
-			if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
-				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_x;
-			else
-				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_y;
-			printf("%f %f %f %f %f \n ",info->game.fp.fov.ray_dv_x,info->game.fp.fov.ray_dv_y,info->game.fp.fov.plain_x,info->game.fp.fov.plain_y,info->game.fp.fov.perp_wall_dist);
-			info->game.fp.fov.line_height = (int)(win_width / info->game.fp.fov.perp_wall_dist);
-			break; // 벽이 있으므로 항상 break 되는것이 보증 될듯.
+			side = 1;
 		}
 	}
 }
@@ -173,7 +176,7 @@ void	draw_raycasted_pixel(t_info *info, int i)
 	int	draw_end;
 	char	*dst;
 	int cnt = 0;
-	
+	printf("I is : %d\n",i);
 	(void)dst;
 	draw_start = (win_height - info->game.fp.fov.line_height) / 2;
 	draw_end = (win_height + info->game.fp.fov.line_height) / 2 ;
@@ -196,7 +199,7 @@ void	get_ray_hit_distance_and_side_using_dda(t_info *info)
 {	
 	get_side_delta_dist(info);
 	dda(info);
-	printf("AAAA %d\n",info->game.fp.fov.line_height);
+	// printf("AAAA %d\n",info->game.fp.fov.line_height);
 }
 
 void	draw_wall_using_raycast(t_info *const info)
