@@ -6,7 +6,7 @@
 /*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 18:58:24 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:59:34 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ void	draw_raycasted_pixel(t_info *info, int i)
 	int	draw_end;
 	char	*dst;
 	int cnt = 0;
-	printf("I is : %d\n",i);
 	(void)dst;
 	draw_start = (win_height - info->game.fp.fov.line_height) / 2;
 	draw_end = (win_height + info->game.fp.fov.line_height) / 2 ;
