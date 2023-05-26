@@ -6,7 +6,7 @@
 /*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 15:56:08 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:58:24 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,44 +139,33 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 {
 	int x;
 	int y;
-	int side;
 
 	x = (int)floor(info->game.fp.pos.x);
 	y = (int)floor(info->game.fp.pos.y);
 
-	side = 0;
+	info->game.fp.fov.side = 0;
 	while (1)
 	{
 		if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
 		{
 			info->game.fp.fov.side_dist_x += info->game.fp.fov.delta_dist_x;
 			x += info->game.fp.fov.step_x;
-			side = 0;
+			info->game.fp.fov.side = 0;
 		}
 		else
 		{
 			info->game.fp.fov.side_dist_y += info->game.fp.fov.delta_dist_y;
 			y += info->game.fp.fov.step_y;
-			side = 1;
+			info->game.fp.fov.side = 1;
 		}
 		if (info->game.map.pars[y][x] == '1')
 		{	
-			if (side == 0)
+			if (info->game.fp.fov.side == 0)
 				info->game.fp.fov.perp_wall_dist = (x - info->game.fp.pos.x + (1 - info->game.fp.fov.step_x) / 2) / info->game.fp.fov.ray_dv_x;
 			else
 				info->game.fp.fov.perp_wall_dist = (y - info->game.fp.pos.y + (1 - info->game.fp.fov.step_y) / 2) / info->game.fp.fov.ray_dv_y;
 			info->game.fp.fov.line_height = (int)(win_width / info->game.fp.fov.perp_wall_dist);
 			break;
-			// if (side == 0)
-			// 	info->game.fp.fov.side_dist_y += info->game.fp.fov.delta_dist_y;
-			// else
-			// 	info->game.fp.fov.side_dist_x += info->game.fp.fov.delta_dist_x;
-			// if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
-			// 	info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_x;
-			// else
-			// 	info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_y;
-			// printf("%f %f %f ",info->game.fp.fov.side_dist_x,info->game.fp.fov.side_dist_y,info->game.fp.fov.perp_wall_dist);
-			// break;
 		}
 	}
 }
@@ -206,12 +195,6 @@ void	draw_raycasted_pixel(t_info *info, int i)
 	// printf("i : %d , cnt : %d \n",i,cnt);
 }
 
-void	get_ray_hit_distance_and_side_using_dda(t_info *info)
-{	
-	get_side_delta_dist(info);
-	dda(info);
-	// printf("AAAA %d\n",info->game.fp.fov.line_height);
-}
 
 void	draw_wall_using_raycast(t_info *const info)
 {
@@ -221,7 +204,8 @@ void	draw_wall_using_raycast(t_info *const info)
 	while (i < win_width)
 	{
 		get_ray_dv(info, i);
-		get_ray_hit_distance_and_side_using_dda(info);
+		get_side_delta_dist(info);
+		dda(info);
 		draw_raycasted_pixel(info, i);
 		++i;
 	}
@@ -230,11 +214,8 @@ void	draw_wall_using_raycast(t_info *const info)
 void	draw_screen_img(t_info *const info)
 {
 	draw_black_background(info);
-	printf("black bg end!\n");
 	draw_background(info);
-	printf("bg end!\n");
 	draw_wall_using_raycast(info);
-	printf("raycasted \n");
 }
 
 static int	loop_hook(t_info *const info)
@@ -248,11 +229,9 @@ static int	loop_hook(t_info *const info)
 
 void	game(t_info *const info)
 {
-	printf("1/3 game here!\n");
 	draw_screen_img(info);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
-	printf("game Here!\n");
 	mlx_loop_hook(info->sys.mlx_ptr, &loop_hook, info);
 	mlx_loop(info->sys.mlx_ptr);
 }

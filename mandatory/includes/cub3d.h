@@ -6,7 +6,7 @@
 /*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 15:33:45 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/26 16:47:50 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,10 @@ typedef struct s_info
 				double	side_dist_y;
 				double	delta_dist_x;
 				double	delta_dist_y;
+				int		side;
 				int		step_x;
 				int		step_y;
+				
 				double	perp_wall_dist;
 				int		line_height;
 			}		fov;
