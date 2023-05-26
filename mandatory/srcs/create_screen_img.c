@@ -6,7 +6,7 @@
 /*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 22:42:54 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 07:59:46 by leegeonha        ###   ########.fr       */
+/*   Updated: 2023/05/26 09:46:50 by leegeonha        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	draw_black_background(t_info *const info)
 		{
 			dst = info->screen.addr + (y * info->screen.line_length + x * \
 				(info->screen.bits_per_pixel / 8));
-			*(unsigned int *)dst = 0x00000000;
+			*(unsigned int *)dst = 0x00BBBBBB;
 			++x;
 		}
 		++y;

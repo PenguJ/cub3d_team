@@ -6,7 +6,7 @@
 /*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 09:36:59 by leegeonha        ###   ########.fr       */
+/*   Updated: 2023/05/26 09:52:22 by leegeonha        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ printf("plain_x: %lf,   plain_y: %lf\n", info->game.fp.fov.plain_x, \
 							info->game.fp.fov.plain_y);
 	draw_black_background(info);
 	draw_screen_img(info);
+	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
 	return (0);
@@ -156,7 +157,7 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 		if (info->game.map.pars[y][x] == '1')
 		{
 			if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
-				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_x; // 아직 어안 상태 
+				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_x;
 			else
 				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_y;
 			printf("%f %f %f %f %f \n ",info->game.fp.fov.ray_dv_x,info->game.fp.fov.ray_dv_y,info->game.fp.fov.plain_x,info->game.fp.fov.plain_y,info->game.fp.fov.perp_wall_dist);
@@ -227,7 +228,7 @@ static int	loop_hook(t_info *const info)
 	mlx_hook(info->sys.win_ptr, event_destroy_notify, 0L, hook_click_x, info);
 	mlx_hook(info->sys.win_ptr, event_key_press, 0L, hook_key_press, info);
 
-	// mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
+
 
 //testingMinimapPrint
 // put_minimap(info);
@@ -238,6 +239,7 @@ static int	loop_hook(t_info *const info)
 
 void	game(t_info *const info)
 {
+	draw_black_background(info);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
 	draw_screen_img(info);
