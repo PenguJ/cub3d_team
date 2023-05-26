@@ -6,7 +6,7 @@
 /*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 08:06:51 by leegeonha        ###   ########.fr       */
+/*   Updated: 2023/05/26 09:36:59 by leegeonha        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	hook_key_press(int key, t_info *const info)
 		info->game.fp.pos.x -= 0.1;
 	else if (key == key_d)
 		info->game.fp.pos.x += 0.1;
-	else if (key == key_left)
+	else if (key == key_right)
 	{
 		info->game.fp.pov.cnt--;
 		if (info->game.fp.pov.cnt == -1)
@@ -50,7 +50,7 @@ int	hook_key_press(int key, t_info *const info)
 		info->game.fp.fov.plain_y = \
 			info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
 	}
-	else if (key == key_right)
+	else if (key == key_left)
 	{
 		info->game.fp.pov.cnt++;
 		if (info->game.fp.pov.cnt == 72)
@@ -82,22 +82,25 @@ printf("plain_x: %lf,   plain_y: %lf\n", info->game.fp.fov.plain_x, \
 							info->game.fp.fov.plain_y);
 	draw_black_background(info);
 	draw_screen_img(info);
+	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
+		info->screen.img, 0, 0);
 	return (0);
 }
 
 
 
-void	get_ray_dv(t_info *const info, int i)
+void	get_ray_dv(t_info *info, int i)
 {
-	info->game.fp.fov.camera_coor_oper = ((2 * i) / win_width) - 1;
+	info->game.fp.fov.camera_coor_oper = ((2.00000000 * (double)i) / (double)win_width) - 1;
 	info->game.fp.fov.ray_dv_x = \
-		info->game.fp.pos.x \
+		info->game.fp.pov.dv_x \
 		+ \
 		info->game.fp.fov.plain_x * info->game.fp.fov.camera_coor_oper;
 	info->game.fp.fov.ray_dv_y = \
-		info->game.fp.pos.y \
+		info->game.fp.pov.dv_y \
 		+ \
 		info->game.fp.fov.plain_y * info->game.fp.fov.camera_coor_oper;
+	// printf("^^^^%f %f \n",info->game.fp.fov.ray_dv_x,info->game.fp.fov.ray_dv_y);
 }
 
 
@@ -105,32 +108,22 @@ void	get_side_delta_dist(t_info *info)
 {
 	if (info->game.fp.fov.ray_dv_x != 0.00000000)
 		info->game.fp.fov.delta_dist_x = fabs(1 / info->game.fp.fov.ray_dv_x);
-	else
-		info->game.fp.fov.delta_dist_x = -1.00000000;
-
 	if (info->game.fp.fov.ray_dv_y != 0.00000000)
 		info->game.fp.fov.delta_dist_y = fabs(1 / info->game.fp.fov.ray_dv_y);
-	else
-		info->game.fp.fov.delta_dist_y = -1.00000000;
 
-
-	if (info->game.fp.fov.ray_dv_x > 0)
+	if (info->game.fp.fov.ray_dv_x > 0.00000000)
 		info->game.fp.fov.side_dist_x = info->game.fp.fov.delta_dist_x * \
 		(ceil(info->game.fp.pos.x) - info->game.fp.pos.x);
-	else if (info->game.fp.fov.ray_dv_x < 0)
+	else if (info->game.fp.fov.ray_dv_x < 0.00000000)
 		info->game.fp.fov.side_dist_x = info->game.fp.fov.delta_dist_x * \
-		info->game.fp.pos.x - floor(info->game.fp.pos.x);
-	else
-		info->game.fp.fov.side_dist_x = -1.00000000;
+		(info->game.fp.pos.x - floor(info->game.fp.pos.x));
 
-	if (info->game.fp.fov.ray_dv_y > 0)
+	if (info->game.fp.fov.ray_dv_y > 0.00000000)
 	info->game.fp.fov.side_dist_y = info->game.fp.fov.delta_dist_y * \
 		(ceil(info->game.fp.pos.y) - info->game.fp.pos.y);
-	else if (info->game.fp.fov.ray_dv_y < 0)
+	else if (info->game.fp.fov.ray_dv_y < 0.00000000)
 		info->game.fp.fov.side_dist_y = info->game.fp.fov.delta_dist_y * \
-		info->game.fp.pos.y - floor(info->game.fp.pos.y);
-	else
-		info->game.fp.fov.side_dist_y = -1.00000000;
+		(info->game.fp.pos.y - floor(info->game.fp.pos.y));
 }
 
 void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함수 쪼개야함 
@@ -142,8 +135,8 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 	y = (int)floor(info->game.fp.pos.y);
 	while (1)
 	{
-		if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y && \
-			info->game.fp.fov.delta_dist_x != -1.00000000)
+		if (info->game.fp.fov.ray_dv_x != 0.00000000 && \
+		info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
 		{
 			 info->game.fp.fov.side_dist_x += info->game.fp.fov.delta_dist_x;
 			if (info->game.fp.fov.ray_dv_x > 0) // x 배열범위 이상일 경우 고려 할 필요 없을듯? 벽을 항상 만나기 때문
@@ -151,8 +144,8 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 			else
 				x--;
 		}
-		else if (info->game.fp.fov.side_dist_x >= info->game.fp.fov.side_dist_y && \
-			info->game.fp.fov.delta_dist_y != -1.00000000)
+		else if (info->game.fp.fov.ray_dv_y != 0.00000000 && \
+			info->game.fp.fov.side_dist_x >= info->game.fp.fov.side_dist_y)
 		{
 			info->game.fp.fov.side_dist_y += info->game.fp.fov.delta_dist_y;
 			if (info->game.fp.fov.ray_dv_y > 0) // y 배열범위 이상일 경우 고려 할 필요 없을듯? 벽을 항상 만나기 때문
@@ -166,7 +159,8 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_x; // 아직 어안 상태 
 			else
 				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_y;
-			info->game.fp.fov.line_height = (int)(win_height / info->game.fp.fov.perp_wall_dist);
+			printf("%f %f %f %f %f \n ",info->game.fp.fov.ray_dv_x,info->game.fp.fov.ray_dv_y,info->game.fp.fov.plain_x,info->game.fp.fov.plain_y,info->game.fp.fov.perp_wall_dist);
+			info->game.fp.fov.line_height = (int)(win_width / info->game.fp.fov.perp_wall_dist);
 			break; // 벽이 있으므로 항상 break 되는것이 보증 될듯.
 		}
 	}
@@ -188,19 +182,20 @@ void	draw_raycasted_pixel(t_info *info, int i)
 	draw_end = win_height - 1;
 	while (draw_start < draw_end)
 	{
-		// dst = info->screen.addr + (draw_start * info->screen.line_length + i * \
-		// 			(info->screen.bits_per_pixel / 8));
-		// *(unsigned int *)dst = 0x00FFFFFF;
+		dst = info->screen.addr + (draw_start * info->screen.line_length + i * \
+					(info->screen.bits_per_pixel / 8));
+		*(unsigned int *)dst = 0x00FFFFFF;
 		draw_start++;
-		cnt ++;
+		cnt++;
 	}
-	printf("i : %d , cnt : %d \n",i,cnt);
+	// printf("i : %d , cnt : %d \n",i,cnt);
 }
 
 void	get_ray_hit_distance_and_side_using_dda(t_info *info)
 {	
 	get_side_delta_dist(info);
 	dda(info);
+	printf("AAAA %d\n",info->game.fp.fov.line_height);
 }
 
 void	draw_wall_using_raycast(t_info *const info)
@@ -235,7 +230,7 @@ static int	loop_hook(t_info *const info)
 	// mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
 
 //testingMinimapPrint
-put_minimap(info);
+// put_minimap(info);
 
 	//paint_black_to_screen_img(info);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:17 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/25 23:34:44 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/26 09:00:20 by leegeonha        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ static void	init_pov(t_info *const info, char c)
 		info->game.fp.pov.initial_dv_x = 1;
 		info->game.fp.pov.initial_dv_y = 0;
 		info->game.fp.fov.plain_x = 0;
-		info->game.fp.fov.plain_y = FOV_HALF_SCALAR;
+		info->game.fp.fov.plain_y = -1 * FOV_HALF_SCALAR;
 	}
 	else if (c == 'N')
 	{
 		info->game.fp.pov.initial_dv_x = 0;
 		info->game.fp.pov.initial_dv_y = -1;
-		info->game.fp.fov.plain_x = FOV_HALF_SCALAR;
+		info->game.fp.fov.plain_x = -1 * FOV_HALF_SCALAR;
 		info->game.fp.fov.plain_y = 0;
 	}
 	else if (c == 'W')
@@ -46,15 +46,17 @@ static void	init_pov(t_info *const info, char c)
 		info->game.fp.pov.initial_dv_x = -1;
 		info->game.fp.pov.initial_dv_y = 0;
 		info->game.fp.fov.plain_x = 0;
-		info->game.fp.fov.plain_y = -1 * FOV_HALF_SCALAR;
+		info->game.fp.fov.plain_y = FOV_HALF_SCALAR;
 	}
 	else if (c == 'S')
 	{
 		info->game.fp.pov.initial_dv_x = 0;
 		info->game.fp.pov.initial_dv_y = 1;
-		info->game.fp.fov.plain_x = -1 * FOV_HALF_SCALAR;
+		info->game.fp.fov.plain_x = FOV_HALF_SCALAR;
 		info->game.fp.fov.plain_y = 0;
 	}
+	info->game.fp.pov.dv_x = info->game.fp.pov.initial_dv_x;
+	info->game.fp.pov.dv_y = info->game.fp.pov.initial_dv_y;
 }
 
 static void	init_info_pov_and_pos(t_info *const info, size_t x, size_t y)
