@@ -6,7 +6,7 @@
 /*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 16:47:50 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/26 20:31:06 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,10 @@ typedef struct s_info					//is_allocated
 			int		cols;
 			int		rows;
 			void	*ptr;				//will_be_destroyed
+			int		*buf;
+			int		pixel_bits;
+			int		line_bytes;
+			int		endian;
 		}	north_wall;
 		struct s_south_wall
 		{
@@ -117,6 +121,10 @@ typedef struct s_info					//is_allocated
 			int		cols;
 			int		rows;
 			void	*ptr;				//will_be_destroyed
+			int		*buf;
+			int		pixel_bits;
+			int		line_bytes;
+			int		endian;
 		}	south_wall;
 		struct s_east_wall
 		{
@@ -124,6 +132,10 @@ typedef struct s_info					//is_allocated
 			int		cols;
 			int		rows;
 			void	*ptr;				//will_be_destroyed
+			int		*buf;
+			int		pixel_bits;
+			int		line_bytes;
+			int		endian;
 		}	east_wall;
 		struct s_west_wall
 		{
@@ -131,6 +143,10 @@ typedef struct s_info					//is_allocated
 			int		cols;
 			int		rows;
 			void	*ptr;				//will_be_destroyed
+			int		*buf;
+			int		pixel_bits;
+			int		line_bytes;
+			int		endian;
 		}	west_wall;
 		struct s_minimap_wall
 		{

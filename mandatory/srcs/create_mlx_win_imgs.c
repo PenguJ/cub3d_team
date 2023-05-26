@@ -6,11 +6,9 @@
 /*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 22:58:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 15:54:51 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/26 20:32:23 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../includes/cub3d.h"
 
 #include "../includes/cub3d.h"
 
@@ -77,6 +75,30 @@ static void	check_xpm_imgs_create_err(t_info *const info)
 	}
 }
 
+static void	create_texture_address(t_info *const info)
+{
+	info->objects.north_wall.buf = \
+	 (int *)mlx_get_data_addr(info->objects.north_wall.ptr,\
+		&(info->objects.north_wall.pixel_bits),\
+		&(info->objects.north_wall.line_bytes),\
+		&(info->objects.north_wall.endian));
+	info->objects.south_wall.buf = \
+	 (int *)mlx_get_data_addr(info->objects.south_wall.ptr,\
+		&(info->objects.south_wall.pixel_bits),\
+		&(info->objects.south_wall.line_bytes),\
+		&(info->objects.south_wall.endian));
+	info->objects.east_wall.buf = \
+	 (int *)mlx_get_data_addr(info->objects.east_wall.ptr,\
+		&(info->objects.east_wall.pixel_bits),\
+		&(info->objects.east_wall.line_bytes),\
+		&(info->objects.east_wall.endian));
+	info->objects.west_wall.buf = \
+	 (int *)mlx_get_data_addr(info->objects.west_wall.ptr,\
+		&(info->objects.west_wall.pixel_bits),\
+		&(info->objects.west_wall.line_bytes),\
+		&(info->objects.west_wall.endian));
+}
+
 void	create_mlx_win_imgs(t_info *const info)
 {
 	info->sys.mlx_ptr = mlx_init();
@@ -88,6 +110,7 @@ void	create_mlx_win_imgs(t_info *const info)
 		exit_process("mlx_new_window() error", EXIT_FAILURE, info, 0);
 	create_texture_imgs_1(info);
 	create_texture_imgs_2(info);
+	create_texture_address(info);
 	create_minimap_imgs(info);
 	check_xpm_imgs_create_err(info);
 	create_screen_img(info);
