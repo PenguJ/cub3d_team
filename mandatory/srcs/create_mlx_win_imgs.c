@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   create_mlx_win_imgs.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 22:58:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/24 23:31:57 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/26 15:54:51 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/cub3d.h"
 
 #include "../includes/cub3d.h"
 
@@ -87,6 +89,6 @@ void	create_mlx_win_imgs(t_info *const info)
 	create_texture_imgs_1(info);
 	create_texture_imgs_2(info);
 	create_minimap_imgs(info);
-	check_xpm_imgs_create_err(info);
+	check_xpm_imgs_create_err(info); // 여기서 먼가 에러남
 	create_screen_img(info);
 }

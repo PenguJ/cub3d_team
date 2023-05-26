@@ -6,7 +6,7 @@
 /*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:28:57 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/25 17:00:15 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/26 15:55:03 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	main(int argc, char *argv[])
 	init_info(&info);
 	parse_info(&info, argv[1]);
 	create_mlx_win_imgs(&info);
-
 printInfo(&info);
 
 	game(&info);

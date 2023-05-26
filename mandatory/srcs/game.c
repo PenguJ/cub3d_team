@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
+/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 10:34:59 by leegeonha        ###   ########.fr       */
+/*   Updated: 2023/05/26 15:56:08 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ printf("pov_now_x: %lf,   pov_now_y: %lf\n", info->game.fp.pov.dv_x, \
 							info->game.fp.pov.dv_y);
 printf("plain_x: %lf,   plain_y: %lf\n", info->game.fp.fov.plain_x, \
 							info->game.fp.fov.plain_y);
-	draw_black_background(info);
 	draw_screen_img(info);
 	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
@@ -101,30 +100,39 @@ void	get_ray_dv(t_info *info, int i)
 		info->game.fp.pov.dv_y \
 		+ \
 		info->game.fp.fov.plain_y * info->game.fp.fov.camera_coor_oper;
-	// printf("^^^^%f %f \n",info->game.fp.fov.ray_dv_x,info->game.fp.fov.ray_dv_y);
+	if (info->game.fp.fov.ray_dv_x != 0.00000000)
+		info->game.fp.fov.delta_dist_x = fabs(1 / info->game.fp.fov.ray_dv_x);
+	if (info->game.fp.fov.ray_dv_y != 0.00000000)
+		info->game.fp.fov.delta_dist_y = fabs(1 / info->game.fp.fov.ray_dv_y);
 }
 
 
 void	get_side_delta_dist(t_info *info)
 {
-	if (info->game.fp.fov.ray_dv_x != 0.00000000)
-		info->game.fp.fov.delta_dist_x = fabs(1 / info->game.fp.fov.ray_dv_x);
-	if (info->game.fp.fov.ray_dv_y != 0.00000000)
-		info->game.fp.fov.delta_dist_y = fabs(1 / info->game.fp.fov.ray_dv_y);
-
 	if (info->game.fp.fov.ray_dv_x > 0.00000000)
+	{
+		info->game.fp.fov.step_x = 1;
 		info->game.fp.fov.side_dist_x = info->game.fp.fov.delta_dist_x * \
-		(ceil(info->game.fp.pos.x) - info->game.fp.pos.x);
-	else if (info->game.fp.fov.ray_dv_x < 0.00000000)
+		(ceil(info->game.fp.pos.x) - info->game.fp.pos.x);		
+	}
+	else
+	{
+		info->game.fp.fov.step_x = -1;
 		info->game.fp.fov.side_dist_x = info->game.fp.fov.delta_dist_x * \
 		(info->game.fp.pos.x - floor(info->game.fp.pos.x));
-
+	}
 	if (info->game.fp.fov.ray_dv_y > 0.00000000)
-	info->game.fp.fov.side_dist_y = info->game.fp.fov.delta_dist_y * \
-		(ceil(info->game.fp.pos.y) - info->game.fp.pos.y);
-	else if (info->game.fp.fov.ray_dv_y < 0.00000000)
+	{	
+		info->game.fp.fov.step_y = 1;
+		info->game.fp.fov.side_dist_y = info->game.fp.fov.delta_dist_y * \
+			(ceil(info->game.fp.pos.y) - info->game.fp.pos.y);
+	}
+	else
+	{
+		info->game.fp.fov.step_y = -1;
 		info->game.fp.fov.side_dist_y = info->game.fp.fov.delta_dist_y * \
 		(info->game.fp.pos.y - floor(info->game.fp.pos.y));
+	}
 }
 
 void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함수 쪼개야함 
@@ -135,37 +143,40 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 
 	x = (int)floor(info->game.fp.pos.x);
 	y = (int)floor(info->game.fp.pos.y);
+
+	side = 0;
 	while (1)
 	{
-		if (info->game.map.pars[y][x] == '1')
+		if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
 		{
-			if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
-				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_x;
-			else
-				info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_y;
-			printf("%f %f %f ",info->game.fp.fov.side_dist_x,info->game.fp.fov.side_dist_y,info->game.fp.fov.perp_wall_dist);
-			info->game.fp.fov.line_height = (int)(win_width / info->game.fp.fov.perp_wall_dist);
-			break;
-		}
-		if (info->game.fp.fov.ray_dv_x != 0.00000000 && \
-		info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
-		{
-			 info->game.fp.fov.side_dist_x += info->game.fp.fov.delta_dist_x;
-			if (info->game.fp.fov.ray_dv_x > 0) // x 배열범위 이상일 경우 고려 할 필요 없을듯? 벽을 항상 만나기 때문
-				x++;
-			else
-				x--;
+			info->game.fp.fov.side_dist_x += info->game.fp.fov.delta_dist_x;
+			x += info->game.fp.fov.step_x;
 			side = 0;
 		}
-		else if (info->game.fp.fov.ray_dv_y != 0.00000000 && \
-			info->game.fp.fov.side_dist_x >= info->game.fp.fov.side_dist_y)
+		else
 		{
 			info->game.fp.fov.side_dist_y += info->game.fp.fov.delta_dist_y;
-			if (info->game.fp.fov.ray_dv_y > 0) // y 배열범위 이상일 경우 고려 할 필요 없을듯? 벽을 항상 만나기 때문
-				y++;
-			else
-				y--;
+			y += info->game.fp.fov.step_y;
 			side = 1;
+		}
+		if (info->game.map.pars[y][x] == '1')
+		{	
+			if (side == 0)
+				info->game.fp.fov.perp_wall_dist = (x - info->game.fp.pos.x + (1 - info->game.fp.fov.step_x) / 2) / info->game.fp.fov.ray_dv_x;
+			else
+				info->game.fp.fov.perp_wall_dist = (y - info->game.fp.pos.y + (1 - info->game.fp.fov.step_y) / 2) / info->game.fp.fov.ray_dv_y;
+			info->game.fp.fov.line_height = (int)(win_width / info->game.fp.fov.perp_wall_dist);
+			break;
+			// if (side == 0)
+			// 	info->game.fp.fov.side_dist_y += info->game.fp.fov.delta_dist_y;
+			// else
+			// 	info->game.fp.fov.side_dist_x += info->game.fp.fov.delta_dist_x;
+			// if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
+			// 	info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_x;
+			// else
+			// 	info->game.fp.fov.perp_wall_dist = info->game.fp.fov.side_dist_y;
+			// printf("%f %f %f ",info->game.fp.fov.side_dist_x,info->game.fp.fov.side_dist_y,info->game.fp.fov.perp_wall_dist);
+			// break;
 		}
 	}
 }
@@ -212,40 +223,36 @@ void	draw_wall_using_raycast(t_info *const info)
 		get_ray_dv(info, i);
 		get_ray_hit_distance_and_side_using_dda(info);
 		draw_raycasted_pixel(info, i);
-		//get_height_of_wall()
-			//get_vertical_distance_from_wall_to_pos();
-		//draw_wall
 		++i;
 	}
 }
 
 void	draw_screen_img(t_info *const info)
 {
-	//paint_floor_and_ceiling(info);
+	draw_black_background(info);
+	printf("black bg end!\n");
 	draw_background(info);
+	printf("bg end!\n");
 	draw_wall_using_raycast(info);
+	printf("raycasted \n");
 }
 
 static int	loop_hook(t_info *const info)
 {
 	mlx_hook(info->sys.win_ptr, event_destroy_notify, 0L, hook_click_x, info);
 	mlx_hook(info->sys.win_ptr, event_key_press, 0L, hook_key_press, info);
-
-
-
 //testingMinimapPrint
 // put_minimap(info);
-
-	//paint_black_to_screen_img(info);
 	return (0);
 }
 
 void	game(t_info *const info)
 {
-	draw_black_background(info);
+	printf("1/3 game here!\n");
+	draw_screen_img(info);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
-	draw_screen_img(info);
+	printf("game Here!\n");
 	mlx_loop_hook(info->sys.mlx_ptr, &loop_hook, info);
 	mlx_loop(info->sys.mlx_ptr);
 }

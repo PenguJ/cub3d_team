@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_screen_img.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leegeonha <leegeonha@student.42.fr>        +#+  +:+       +#+        */
+/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 22:42:54 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 09:46:50 by leegeonha        ###   ########.fr       */
+/*   Updated: 2023/05/26 15:19:13 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,4 @@ void	create_screen_img(t_info *const info)
 						&info->screen.endian);
 	if (!info->screen.addr)
 		exit_process("mlx_get_data_addr() error", EXIT_FAILURE, info, 0);
-	draw_background(info);
-	// draw_ray(info); 
 }
