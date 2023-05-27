@@ -64,6 +64,15 @@ TO_DO : mlx, raycasting(dda algorithm) 공부 및 연습
 
 * rotate에 plain_dir_vector 연산도 추가. 나중에 레이케스팅할 땐 뒤에 곱연산을 plain으로 하면 됨.
 
+>05/25, 05/26
+>
+* 레이캐스트 적용 및 이동과 회전 수정
+
+* 등등..
+
+>05/27
+
+* 스페이스 공간 포함한 섬맵 에러띄워야하는데 valid하게 취급됨. 수정해야함!
 
 
 ...what more?
