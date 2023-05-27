@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/27 14:20:09 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/27 19:50:42 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_info					//is_allocated
 				double	side_dist_y;
 				double	delta_dist_x;
 				double	delta_dist_y;
+				double	wall_x;
 				int		side;
 				int		step_x;
 				int		step_y;

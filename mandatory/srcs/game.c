@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/27 14:21:21 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/27 19:57:49 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,36 +217,65 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 		if (info->game.map.pars[y][x] == '1')
 		{	
 			if (info->game.fp.fov.side == 0)
+			{
 				info->game.fp.fov.perp_wall_dist = (x - info->game.fp.pos.x + (1 - info->game.fp.fov.step_x) / 2) / info->game.fp.fov.ray_dv_x;
+				info->game.fp.fov.wall_x = info->game.fp.pos.y + info->game.fp.fov.side_dist_x * info->game.fp.fov.ray_dv_y / 0.66;
+			}
 			else
+			{
 				info->game.fp.fov.perp_wall_dist = (y - info->game.fp.pos.y + (1 - info->game.fp.fov.step_y) / 2) / info->game.fp.fov.ray_dv_y;
+				info->game.fp.fov.wall_x = info->game.fp.pos.x + info->game.fp.fov.side_dist_y * info->game.fp.fov.ray_dv_x / 0.66;
+			}
 			info->game.fp.fov.line_height = (int)(win_width / info->game.fp.fov.perp_wall_dist);
 			break;
 		}
 	}
 }
 
-void	draw_raycasted_pixel(t_info *info, int i)
+void	draw_raycasted_pixel(t_info *info, int i, int x)
 {
 	int		draw_start;
 	int		draw_end;
+	int		idx;
+	int		y;
 	char	*dst;
-	int cnt = 0;
-	(void)dst;
+
 	draw_start = (win_height - info->game.fp.fov.line_height) / 2;
 	draw_end = (win_height + info->game.fp.fov.line_height) / 2 ;
+	idx = 0;
 	if (draw_start < 0)
 	draw_start = 0;	  
 	if (draw_end >= win_height)
 	draw_end = win_height - 1;
-	while (draw_start < draw_end)
+	while (draw_start + idx < draw_end)
 	{
-		dst = info->screen.addr + (draw_start * info->screen.line_length + i * \
+		y = (int)(64.00000000 * idx / (draw_end - draw_start));
+		// printf("YYYYY : %d\n",y);
+		// 사진  y 값 = 64 * i / (draw_end - draw_start)
+		// 사진  x 값 = 64 * x 방향벡터?
+		dst = info->screen.addr + ((draw_start + idx) * info->screen.line_length + i * \
 					(info->screen.bits_per_pixel / 8));
-		*(unsigned int *)dst = 0x00FFFFFF;
-		draw_start++;
-		cnt++;
+		*(int *)dst = info->objects.north_wall.buf[y * info->objects.north_wall.line_bytes / 4 + x];
+		// *(unsigned int *)dst = 0x00FFFFFF;
+		idx++;
 	}
+}
+
+void	set_wall(t_info *info, int i)
+{
+	int x;
+	
+	x = (int)(fabs(info->game.fp.fov.wall_x - floor(info->game.fp.fov.wall_x)) * 64.000000);
+	printf("XXXX : %d iiiiii : %d\n",x,i);
+	if (info->game.fp.fov.side== 1 && \
+	info->game.fp.fov.step_y == -1)
+		draw_raycasted_pixel(info, i, x); //north
+	else if (info->game.fp.fov.side == 1)
+		draw_raycasted_pixel(info, i, x); //south
+	else if (info->game.fp.fov.step_x == 1)
+		draw_raycasted_pixel(info, i, x); //east
+	else
+		draw_raycasted_pixel(info, i, x); //west
 }
 
 
@@ -260,7 +289,7 @@ void	draw_wall_using_raycast(t_info *const info)
 		get_ray_dv(info, i);
 		get_side_delta_dist(info);
 		dda(info);
-		draw_raycasted_pixel(info, win_width - i - 1);
+		set_wall(info, win_width - i - 1);
 		--i;
 	}
 }
