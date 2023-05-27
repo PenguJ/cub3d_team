@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 20:31:06 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/27 14:20:09 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,14 +166,8 @@ typedef struct s_info					//is_allocated
 		enum e_x11_event
 		{
 			event_key_press = 2,
-			event_key_release = 3,
 			event_destroy_notify = 17
 		}	x11_event;
-		enum e_x11_mask
-		{
-			mask_key_press = 1L<<0,
-			mask_key_release = 1L<<1
-		}	x11_mask;
 		enum e_key_code
 		{
 			key_w = 13,
@@ -213,6 +207,16 @@ void	exit_process(char *msg, int exit_code, t_info *const info, int fd);
 
 //		init_s_info.c	(must be fixed! not complete!)
 void	init_info(t_info *const info);
+
+//		init_s_info_2.c
+void	init_info_map(t_info *const info);
+void	init_info_fp(t_info *const info);
+
+//		init_s_info_3.c
+void	init_info_rgb(t_info *const info);
+void	init_info_ns_wall(t_info *const info);
+void	init_info_ew_wall(t_info *const info);
+void	init_info_mlx_and_screen(t_info *const info);
 
 //		parse_info.c
 int		skip_space(int fd, char *buf);
@@ -259,8 +263,6 @@ void	draw_black_background(t_info *const info);
 //		game.c
 void	game(t_info *const info);
 void	draw_screen_img(t_info *const info);
-//(filename).c
-//(filename).c
 //(filename).c
 //(filename).c
 //(filename).c

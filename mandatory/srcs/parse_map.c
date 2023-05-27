@@ -25,35 +25,31 @@ static void	init_info_width_and_height(t_info *const info)
 	}
 }
 
+static void	init_pov_lit(t_info *const in, double dypx, double dx, double py)
+{
+	in->game.fp.pov.initial_dv_x = dx;
+	in->game.fp.pov.initial_dv_y = dypx;
+	in->game.fp.fov.plain_x = dypx * FOV_HALF_SCALAR;
+	in->game.fp.fov.plain_y = py;
+}
+
 static void	init_pov(t_info *const info, char c)
 {
 	if (c == 'E')
 	{
-		info->game.fp.pov.initial_dv_x = 1;
-		info->game.fp.pov.initial_dv_y = 0;
-		info->game.fp.fov.plain_x = 0;
-		info->game.fp.fov.plain_y = -1 * FOV_HALF_SCALAR;
+		init_pov_lit(info, 0, 1, -1 * FOV_HALF_SCALAR);
 	}
 	else if (c == 'N')
 	{
-		info->game.fp.pov.initial_dv_x = 0;
-		info->game.fp.pov.initial_dv_y = -1;
-		info->game.fp.fov.plain_x = -1 * FOV_HALF_SCALAR;
-		info->game.fp.fov.plain_y = 0;
+		init_pov_lit(info, -1, 0, 0);
 	}
 	else if (c == 'W')
 	{
-		info->game.fp.pov.initial_dv_x = -1;
-		info->game.fp.pov.initial_dv_y = 0;
-		info->game.fp.fov.plain_x = 0;
-		info->game.fp.fov.plain_y = FOV_HALF_SCALAR;
+		init_pov_lit(info, 0, -1, FOV_HALF_SCALAR);
 	}
 	else if (c == 'S')
 	{
-		info->game.fp.pov.initial_dv_x = 0;
-		info->game.fp.pov.initial_dv_y = 1;
-		info->game.fp.fov.plain_x = FOV_HALF_SCALAR;
-		info->game.fp.fov.plain_y = 0;
+		init_pov_lit(info, 1, 0, 0);
 	}
 	info->game.fp.pov.dv_x = info->game.fp.pov.initial_dv_x;
 	info->game.fp.pov.dv_y = info->game.fp.pov.initial_dv_y;

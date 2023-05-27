@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_screen_img.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 22:42:54 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 15:19:13 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/27 13:59:05 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	create_screen_img(t_info *const info)
 						&info->screen.bits_per_pixel, \
 						&info->screen.line_length, \
 						&info->screen.endian);
-printf("%d,   %d,   %d\n", info->screen.bits_per_pixel, info->screen.line_length, info->screen.endian);
 	if (!info->screen.addr)
 		exit_process("mlx_get_data_addr() error", EXIT_FAILURE, info, 0);
 }

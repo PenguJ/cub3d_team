@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 18:59:34 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/27 14:21:21 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,74 +18,119 @@ int	hook_click_x(t_info *const info)
 	return (0);
 }
 
-int	hook_key_press(int key, t_info *const info)
+void	press_key_w(t_info *const info)
 {
-	if (key == key_w)
+	if (info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_y * MOVE_SPEED)] \
+	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_x * MOVE_SPEED)] \
+	!= '1')
 	{
 		info->game.fp.pos.x += info->game.fp.pov.dv_x * MOVE_SPEED;
 		info->game.fp.pos.y += info->game.fp.pov.dv_y * MOVE_SPEED;
 	}
-	else if (key == key_s)
+
+}
+
+void	press_key_s(t_info *const info)
+{
+	if (info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_y * MOVE_SPEED)] \
+	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_x * MOVE_SPEED)] \
+	!= '1')
 	{
 		info->game.fp.pos.x -= info->game.fp.pov.dv_x * MOVE_SPEED;
 		info->game.fp.pos.y -= info->game.fp.pov.dv_y * MOVE_SPEED;
 	}
-	else if (key == key_d)
+}
+
+void	press_key_d(t_info *const info)
+{
+	if (info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_x * MOVE_SPEED)] \
+	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_y * MOVE_SPEED)] \
+	!= '1')
 	{
 		info->game.fp.pos.x -= info->game.fp.pov.dv_y * MOVE_SPEED;
 		info->game.fp.pos.y += info->game.fp.pov.dv_x * MOVE_SPEED;
 	}
-	else if (key == key_a)
+}
+
+void	press_key_a(t_info *const info)
+{
+	if (info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_x * MOVE_SPEED)] \
+	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_y * MOVE_SPEED)] \
+	!= '1')
 	{
 		info->game.fp.pos.x += info->game.fp.pov.dv_y * MOVE_SPEED;
 		info->game.fp.pos.y -= info->game.fp.pov.dv_x * MOVE_SPEED;
 	}
+}
+
+void	press_left_arrow(t_info *const info)
+{
+	info->game.fp.pov.cnt--;
+	if (info->game.fp.pov.cnt == -1)
+		info->game.fp.pov.cnt = 71;
+	info->game.fp.pov.dv_x = \
+		(info->game.fp.pov.initial_dv_x * \
+			cos(ANGLE_5 * info->game.fp.pov.cnt)) \
+		- \
+		(info->game.fp.pov.initial_dv_y * \
+			sin(ANGLE_5 * info->game.fp.pov.cnt));
+	info->game.fp.pov.dv_y = \
+		(info->game.fp.pov.initial_dv_x * \
+			sin(ANGLE_5 * info->game.fp.pov.cnt)) \
+		+ \
+		(info->game.fp.pov.initial_dv_y * \
+			cos(ANGLE_5 * info->game.fp.pov.cnt));
+	info->game.fp.fov.plain_x = \
+		info->game.fp.pov.dv_y * FOV_HALF_SCALAR;
+	info->game.fp.fov.plain_y = \
+		info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
+}
+
+void	press_right_arrow(t_info *const info)
+{
+	info->game.fp.pov.cnt++;
+	if (info->game.fp.pov.cnt == 72)
+		info->game.fp.pov.cnt = 0;
+	info->game.fp.pov.dv_x = \
+		(info->game.fp.pov.initial_dv_x * \
+			cos(ANGLE_5 * info->game.fp.pov.cnt)) \
+		- \
+		(info->game.fp.pov.initial_dv_y * \
+			sin(ANGLE_5 * info->game.fp.pov.cnt));
+	info->game.fp.pov.dv_y = \
+		(info->game.fp.pov.initial_dv_x * \
+			sin(ANGLE_5 * info->game.fp.pov.cnt)) \
+		+ \
+		(info->game.fp.pov.initial_dv_y * \
+			cos(ANGLE_5 * info->game.fp.pov.cnt));
+	info->game.fp.fov.plain_x = \
+		info->game.fp.pov.dv_y * FOV_HALF_SCALAR;
+	info->game.fp.fov.plain_y = \
+		info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
+}
+
+int	hook_key_press(int key, t_info *const info)
+{
+	if (key == key_w)
+		press_key_w(info);
+	else if (key == key_s)
+		press_key_s(info);
+	else if (key == key_d)
+		press_key_d(info);
+	else if (key == key_a)
+		press_key_a(info);
 	else if (key == key_left)
-	{
-		info->game.fp.pov.cnt--;
-		if (info->game.fp.pov.cnt == -1)
-			info->game.fp.pov.cnt = 71;
-		info->game.fp.pov.dv_x = \
-			(info->game.fp.pov.initial_dv_x * \
-				cos(ANGLE_5 * info->game.fp.pov.cnt)) \
-			- \
-			(info->game.fp.pov.initial_dv_y * \
-				sin(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.pov.dv_y = \
-			(info->game.fp.pov.initial_dv_x * \
-				sin(ANGLE_5 * info->game.fp.pov.cnt)) \
-			+ \
-			(info->game.fp.pov.initial_dv_y * \
-				cos(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.fov.plain_x = \
-			info->game.fp.pov.dv_y * FOV_HALF_SCALAR;
-		info->game.fp.fov.plain_y = \
-			info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
-	}
+		press_left_arrow(info);
 	else if (key == key_right)
-	{
-		info->game.fp.pov.cnt++;
-		if (info->game.fp.pov.cnt == 72)
-			info->game.fp.pov.cnt = 0;
-		info->game.fp.pov.dv_x = \
-			(info->game.fp.pov.initial_dv_x * \
-				cos(ANGLE_5 * info->game.fp.pov.cnt)) \
-			- \
-			(info->game.fp.pov.initial_dv_y * \
-				sin(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.pov.dv_y = \
-			(info->game.fp.pov.initial_dv_x * \
-				sin(ANGLE_5 * info->game.fp.pov.cnt)) \
-			+ \
-			(info->game.fp.pov.initial_dv_y * \
-				cos(ANGLE_5 * info->game.fp.pov.cnt));
-		info->game.fp.fov.plain_x = \
-			info->game.fp.pov.dv_y * FOV_HALF_SCALAR;
-		info->game.fp.fov.plain_y = \
-			info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
-	}
+		press_right_arrow(info);
 	else if (key == key_esc)
 		exit_process(NULL, EXIT_SUCCESS, info, 0);
+	else
+		return (0);
 printf("pos_x: %lf,   pos_y: %lf\n", info->game.fp.pos.x, \
 							info->game.fp.pos.y);
 printf("pov_now_x: %lf,   pov_now_y: %lf\n", info->game.fp.pov.dv_x, \
@@ -154,9 +199,8 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 
 	x = (int)floor(info->game.fp.pos.x);
 	y = (int)floor(info->game.fp.pos.y);
-
 	info->game.fp.fov.side = 0;
-	while (1)
+	while (true)
 	{
 		if (info->game.fp.fov.side_dist_x < info->game.fp.fov.side_dist_y)
 		{
@@ -184,8 +228,8 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 
 void	draw_raycasted_pixel(t_info *info, int i)
 {
-	int	draw_start;
-	int	draw_end;
+	int		draw_start;
+	int		draw_end;
 	char	*dst;
 	int cnt = 0;
 	(void)dst;
@@ -216,7 +260,7 @@ void	draw_wall_using_raycast(t_info *const info)
 		get_ray_dv(info, i);
 		get_side_delta_dist(info);
 		dda(info);
-		draw_raycasted_pixel(info, win_width - i);
+		draw_raycasted_pixel(info, win_width - i - 1);
 		--i;
 	}
 }
@@ -237,9 +281,9 @@ static int	loop_hook(t_info *const info)
 
 void	game(t_info *const info)
 {
-	mlx_loop_hook(info->sys.mlx_ptr, &loop_hook, info);
 	draw_screen_img(info);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
+	mlx_loop_hook(info->sys.mlx_ptr, &loop_hook, info);
 	mlx_loop(info->sys.mlx_ptr);
 }

@@ -6,7 +6,7 @@
 #    By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/21 22:25:00 by jeojeon           #+#    #+#              #
-#    Updated: 2023/05/24 23:29:12 by jeojeon          ###   ########.fr        #
+#    Updated: 2023/05/27 13:58:18 by jeojeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ MAND_SRCS = $(addprefix $(MAND_SRCSDIR), \
 			create_screen_img.c \
 			exit_process.c \
 			game.c \
+			init_s_info_2.c \
+			init_s_info_3.c \
 			init_s_info.c \
 			parse_info.c \
 			parse_map__check_map.c \
