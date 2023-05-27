@@ -32,15 +32,15 @@ int	hook_key_press(int key, t_info *const info)
 	}
 	else if (key == key_d)
 	{
-		info->game.fp.pos.x += info->game.fp.pov.dv_y * MOVE_SPEED;
-		info->game.fp.pos.y -= info->game.fp.pov.dv_x * MOVE_SPEED;
-	}
-	else if (key == key_a)
-	{
 		info->game.fp.pos.x -= info->game.fp.pov.dv_y * MOVE_SPEED;
 		info->game.fp.pos.y += info->game.fp.pov.dv_x * MOVE_SPEED;
 	}
-	else if (key == key_right)
+	else if (key == key_a)
+	{
+		info->game.fp.pos.x += info->game.fp.pov.dv_y * MOVE_SPEED;
+		info->game.fp.pos.y -= info->game.fp.pov.dv_x * MOVE_SPEED;
+	}
+	else if (key == key_left)
 	{
 		info->game.fp.pov.cnt--;
 		if (info->game.fp.pov.cnt == -1)
@@ -62,7 +62,7 @@ int	hook_key_press(int key, t_info *const info)
 		info->game.fp.fov.plain_y = \
 			info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
 	}
-	else if (key == key_left)
+	else if (key == key_right)
 	{
 		info->game.fp.pov.cnt++;
 		if (info->game.fp.pov.cnt == 72)
@@ -210,14 +210,14 @@ void	draw_wall_using_raycast(t_info *const info)
 {
 	int	i;
 
-	i = 0;
-	while (i < win_width)
+	i = win_width - 1;
+	while (i >= 0)
 	{
 		get_ray_dv(info, i);
 		get_side_delta_dist(info);
 		dda(info);
-		draw_raycasted_pixel(info, i);
-		++i;
+		draw_raycasted_pixel(info, win_width - i);
+		--i;
 	}
 }
 
