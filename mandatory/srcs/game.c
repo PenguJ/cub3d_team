@@ -6,7 +6,7 @@
 /*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/27 19:57:49 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/28 21:57:40 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,10 +157,13 @@ void	get_ray_dv(t_info *info, int i)
 		info->game.fp.pov.dv_y \
 		+ \
 		info->game.fp.fov.plain_y * info->game.fp.fov.camera_coor_oper;
+	info->game.fp.fov.ray_dist = sqrt((info->game.fp.fov.ray_dv_x*info->game.fp.fov.ray_dv_x)+(info->game.fp.fov.ray_dv_y*info->game.fp.fov.ray_dv_y));
 	if (info->game.fp.fov.ray_dv_x != 0.00000000)
-		info->game.fp.fov.delta_dist_x = fabs(1 / info->game.fp.fov.ray_dv_x);
+		info->game.fp.fov.delta_dist_x = sqrt(1 + (info->game.fp.fov.ray_dv_y * info->game.fp.fov.ray_dv_y) / (info->game.fp.fov.ray_dv_x * info->game.fp.fov.ray_dv_x));
+		// info->game.fp.fov.delta_dist_x = fabs(info->game.fp.fov.ray_dist / info->game.fp.fov.ray_dv_x);
 	if (info->game.fp.fov.ray_dv_y != 0.00000000)
-		info->game.fp.fov.delta_dist_y = fabs(1 / info->game.fp.fov.ray_dv_y);
+		info->game.fp.fov.delta_dist_y = sqrt(1 + (info->game.fp.fov.ray_dv_x * info->game.fp.fov.ray_dv_x) / (info->game.fp.fov.ray_dv_y * info->game.fp.fov.ray_dv_y));
+		// info->game.fp.fov.delta_dist_y = fabs(info->game.fp.fov.ray_dist / info->game.fp.fov.ray_dv_y);
 }
 
 
@@ -219,12 +222,12 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 			if (info->game.fp.fov.side == 0)
 			{
 				info->game.fp.fov.perp_wall_dist = (x - info->game.fp.pos.x + (1 - info->game.fp.fov.step_x) / 2) / info->game.fp.fov.ray_dv_x;
-				info->game.fp.fov.wall_x = info->game.fp.pos.y + info->game.fp.fov.side_dist_x * info->game.fp.fov.ray_dv_y / 0.66;
+				info->game.fp.fov.wall_x = info->game.fp.pos.y + (info->game.fp.fov.side_dist_x * (info->game.fp.fov.ray_dv_y) / info->game.fp.fov.ray_dist);
 			}
 			else
 			{
 				info->game.fp.fov.perp_wall_dist = (y - info->game.fp.pos.y + (1 - info->game.fp.fov.step_y) / 2) / info->game.fp.fov.ray_dv_y;
-				info->game.fp.fov.wall_x = info->game.fp.pos.x + info->game.fp.fov.side_dist_y * info->game.fp.fov.ray_dv_x / 0.66;
+				info->game.fp.fov.wall_x = info->game.fp.pos.x + (info->game.fp.fov.side_dist_y * (info->game.fp.fov.ray_dv_x) / info->game.fp.fov.ray_dist);
 			}
 			info->game.fp.fov.line_height = (int)(win_width / info->game.fp.fov.perp_wall_dist);
 			break;
@@ -232,7 +235,7 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 	}
 }
 
-void	draw_raycasted_pixel(t_info *info, int i, int x)
+void	draw_north_raycasted_pixel(t_info *info, int i, int x)
 {
 	int		draw_start;
 	int		draw_end;
@@ -244,38 +247,138 @@ void	draw_raycasted_pixel(t_info *info, int i, int x)
 	draw_end = (win_height + info->game.fp.fov.line_height) / 2 ;
 	idx = 0;
 	if (draw_start < 0)
-	draw_start = 0;	  
+	{
+		draw_start = 0;	  
+	}
 	if (draw_end >= win_height)
-	draw_end = win_height - 1;
+		draw_end = win_height - 1;
 	while (draw_start + idx < draw_end)
 	{
-		y = (int)(64.00000000 * idx / (draw_end - draw_start));
-		// printf("YYYYY : %d\n",y);
-		// 사진  y 값 = 64 * i / (draw_end - draw_start)
-		// 사진  x 값 = 64 * x 방향벡터?
+		if (((win_height - info->game.fp.fov.line_height) * (double)32 / info->game.fp.fov.line_height) < 0.000000)
+			y = (int)((((64.00000000) * idx) / info->game.fp.fov.line_height) - \
+			((win_height - info->game.fp.fov.line_height) * (double)32 / info->game.fp.fov.line_height));
+		else
+			y = (int)(64.00000000 * idx / (draw_end - draw_start));
 		dst = info->screen.addr + ((draw_start + idx) * info->screen.line_length + i * \
 					(info->screen.bits_per_pixel / 8));
-		*(int *)dst = info->objects.north_wall.buf[y * info->objects.north_wall.line_bytes / 4 + x];
+		*(int *)dst = info->objects.north_wall.buf[(int)(y * info->objects.north_wall.line_bytes / 4.00000000 + x)];
 		// *(unsigned int *)dst = 0x00FFFFFF;
 		idx++;
 	}
 }
 
+void	draw_south_raycasted_pixel(t_info *info, int i, int x)
+{
+	int		draw_start;
+	int		draw_end;
+	int		idx;
+	int		y;
+	char	*dst;
+
+	draw_start = (win_height - info->game.fp.fov.line_height) / 2;
+	draw_end = (win_height + info->game.fp.fov.line_height) / 2 ;
+	idx = 0;
+	if (draw_start < 0)
+	{
+		draw_start = 0;	  
+	}
+	if (draw_end >= win_height)
+		draw_end = win_height - 1;
+	while (draw_start + idx < draw_end)
+	{
+		if (((win_height - info->game.fp.fov.line_height) * (double)32 / info->game.fp.fov.line_height) < 0.000000)
+			y = (int)((((64.00000000) * idx) / info->game.fp.fov.line_height) - \
+			((win_height - info->game.fp.fov.line_height) * (double)32 / info->game.fp.fov.line_height));
+		else
+			y = (int)(64.00000000 * idx / (draw_end - draw_start));
+		dst = info->screen.addr + ((draw_start + idx) * info->screen.line_length + i * \
+					(info->screen.bits_per_pixel / 8));
+		*(int *)dst = info->objects.south_wall.buf[(int)(y * info->objects.south_wall.line_bytes / 4.00000000 + (63 - x))];
+		// *(unsigned int *)dst = 0x00FFFFFF;
+		idx++;
+	}
+}
+
+void	draw_west_raycasted_pixel(t_info *info, int i, int x)
+{
+	int		draw_start;
+	int		draw_end;
+	int		idx;
+	int		y;
+	char	*dst;
+
+	draw_start = (win_height - info->game.fp.fov.line_height) / 2;
+	draw_end = (win_height + info->game.fp.fov.line_height) / 2 ;
+	idx = 0;
+	if (draw_start < 0)
+	{
+		draw_start = 0;	  
+	}
+	if (draw_end >= win_height)
+		draw_end = win_height - 1;
+	while (draw_start + idx < draw_end)
+	{
+		if (((win_height - info->game.fp.fov.line_height) * (double)32 / info->game.fp.fov.line_height) < 0.000000)
+			y = (int)((((64.00000000) * idx) / info->game.fp.fov.line_height) - \
+			((win_height - info->game.fp.fov.line_height) * (double)32 / info->game.fp.fov.line_height));
+		else
+			y = (int)(64.00000000 * idx / (draw_end - draw_start));
+		dst = info->screen.addr + ((draw_start + idx) * info->screen.line_length + i * \
+					(info->screen.bits_per_pixel / 8));
+		*(int *)dst = info->objects.west_wall.buf[(int)(y * info->objects.west_wall.line_bytes / 4.00000000 + (63 - x))];
+		// *(unsigned int *)dst = 0x00FFFFFF;
+		idx++;
+	}
+}
+
+void	draw_east_raycasted_pixel(t_info *info, int i, int x)
+{
+	int		draw_start;
+	int		draw_end;
+	int		idx;
+	int		y;
+	char	*dst;
+
+	draw_start = (win_height - info->game.fp.fov.line_height) / 2;
+	draw_end = (win_height + info->game.fp.fov.line_height) / 2 ;
+	idx = 0;
+	if (draw_start < 0)
+	{
+		draw_start = 0;	  
+	}
+	if (draw_end >= win_height)
+		draw_end = win_height - 1;
+	while (draw_start + idx < draw_end)
+	{
+		if (((win_height - info->game.fp.fov.line_height) * (double)32 / info->game.fp.fov.line_height) < 0.000000)
+			y = (int)((((64.00000000) * idx) / info->game.fp.fov.line_height) - \
+			((win_height - info->game.fp.fov.line_height) * (double)32 / info->game.fp.fov.line_height));
+		else
+			y = (int)(64.00000000 * idx / (draw_end - draw_start));
+		dst = info->screen.addr + ((draw_start + idx) * info->screen.line_length + i * \
+					(info->screen.bits_per_pixel / 8));
+		*(int *)dst = info->objects.east_wall.buf[(int)(y * info->objects.east_wall.line_bytes / 4.00000000 + x)];
+		// *(unsigned int *)dst = 0x00FFFFFF;
+		idx++;
+	}
+}
+
+
 void	set_wall(t_info *info, int i)
 {
 	int x;
-	
-	x = (int)(fabs(info->game.fp.fov.wall_x - floor(info->game.fp.fov.wall_x)) * 64.000000);
-	printf("XXXX : %d iiiiii : %d\n",x,i);
+
+	x = (int)((info->game.fp.fov.wall_x - floor(info->game.fp.fov.wall_x)) * 64.000000);
+	printf("x is %d\n",x);
 	if (info->game.fp.fov.side== 1 && \
 	info->game.fp.fov.step_y == -1)
-		draw_raycasted_pixel(info, i, x); //north
+		draw_north_raycasted_pixel(info, i, x); //north
 	else if (info->game.fp.fov.side == 1)
-		draw_raycasted_pixel(info, i, x); //south
+		draw_south_raycasted_pixel(info, i, x); //south
 	else if (info->game.fp.fov.step_x == 1)
-		draw_raycasted_pixel(info, i, x); //east
+		draw_east_raycasted_pixel(info, i, x); //east
 	else
-		draw_raycasted_pixel(info, i, x); //west
+		draw_west_raycasted_pixel(info, i, x); //west
 }
 
 
