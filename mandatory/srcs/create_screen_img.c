@@ -6,32 +6,11 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 22:42:54 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/27 13:59:05 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/29 20:30:57 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-void	draw_black_background(t_info *const info)
-{
-	char	*dst;
-	int		x;
-	int		y;
-
-	y = 0;
-	while (y < win_height)
-	{
-		x = 0;
-		while (x < win_width)
-		{
-			dst = info->screen.addr + (y * info->screen.line_length + x * \
-				(info->screen.bits_per_pixel / 8));
-			*(unsigned int *)dst = 0x00BBBBBB;
-			++x;
-		}
-		++y;
-	}
-}
 
 void	draw_background(t_info *const info)
 {
@@ -52,7 +31,8 @@ void	draw_background(t_info *const info)
 					(256 * 256 * 256 * ((y * 255) / (win_height / 2)));
 			else
 				*(unsigned int *)dst = info->objects.rgb_floor.rgb + \
-					(256 * 256 * 256 * (((win_height - y) * 255) / (win_height / 2)));
+					(256 * 256 * 256 * (((win_height - y) * 255) / \
+					(win_height / 2)));
 			++x;
 		}
 		++y;

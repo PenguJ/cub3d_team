@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:28:57 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/26 15:55:03 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/29 19:24:52 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	main(int argc, char *argv[])
 	init_info(info);
 	parse_info(info, argv[1]);
 	create_mlx_win_imgs(info);
-printInfo(info);
-
 	game(info);
 	exit_process(NULL, EXIT_SUCCESS, info, 0);
 }

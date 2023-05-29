@@ -6,7 +6,7 @@
 #    By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/21 22:25:00 by jeojeon           #+#    #+#              #
-#    Updated: 2023/05/27 13:58:18 by jeojeon          ###   ########.fr        #
+#    Updated: 2023/05/29 20:59:09 by jeojeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,16 +23,22 @@ MAND_SRCS = $(addprefix $(MAND_SRCSDIR), \
 			init_s_info_2.c \
 			init_s_info_3.c \
 			init_s_info.c \
+			key_press_rotate.c \
+			key_press_wasd_esc.c \
 			parse_info.c \
 			parse_map__check_map.c \
 			parse_map__get_map_0.c \
 			parse_map__get_map_1.c \
 			parse_map.c \
 			parse_objs__rgb.c \
+			parse_objs__rgb2.c \
 			parse_objs__texture.c \
 			parse_objs.c \
 			parse_uility.c \
-			TESTCODE_delete!!!.c \
+			put_minimap.c \
+			raycasting.c \
+			draw_raycasted_pixel.c \
+			dda.c \
 			)
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 MAND_INCLUDESDIR = ./mandatory/includes/

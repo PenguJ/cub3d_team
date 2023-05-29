@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/29 17:50:12 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/29 21:03:57 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 //define & typedef
 # define VALID_ARGC_NUM (2)
 # define FOV_HALF_SCALAR (0.66)
-# define ANGLE_5 (M_PI / 18)
+# define ANGLE_5 (0.1745329252)
 # define MOVE_SPEED (0.3)
 
 typedef enum e_obj_id
@@ -39,7 +39,7 @@ typedef enum e_obj_id
 	id_west_wall
 }	t_obj_id;
 
-typedef struct s_info					//is_allocated
+typedef struct s_info
 {
 	struct s_game
 	{
@@ -47,7 +47,7 @@ typedef struct s_info					//is_allocated
 		{
 			size_t	width;
 			size_t	height;
-			char	**pars;				//is_allocated
+			char	**pars;
 		}	map;
 		struct s_fp
 		{
@@ -66,7 +66,6 @@ typedef struct s_info					//is_allocated
 				double	camera_coor_oper;
 				double	ray_dv_x;
 				double	ray_dv_y;
-				double	ray_dist;
 				double	pos_dist_x;
 				double	pos_dist_y;
 				double	side_dist_x;
@@ -107,10 +106,10 @@ typedef struct s_info					//is_allocated
 		}	rgb_ceiling;
 		struct s_north_wall
 		{
-			char	*file;				//is_allocated
+			char	*file;
 			int		cols;
 			int		rows;
-			void	*ptr;				//will_be_destroyed
+			void	*ptr;
 			int		*buf;
 			int		pixel_bits;
 			int		line_bytes;
@@ -118,10 +117,10 @@ typedef struct s_info					//is_allocated
 		}	north_wall;
 		struct s_south_wall
 		{
-			char	*file;				//is_allocated
+			char	*file;
 			int		cols;
 			int		rows;
-			void	*ptr;				//will_be_destroyed
+			void	*ptr;
 			int		*buf;
 			int		pixel_bits;
 			int		line_bytes;
@@ -129,10 +128,10 @@ typedef struct s_info					//is_allocated
 		}	south_wall;
 		struct s_east_wall
 		{
-			char	*file;				//is_allocated
+			char	*file;
 			int		cols;
 			int		rows;
-			void	*ptr;				//will_be_destroyed
+			void	*ptr;
 			int		*buf;
 			int		pixel_bits;
 			int		line_bytes;
@@ -140,10 +139,10 @@ typedef struct s_info					//is_allocated
 		}	east_wall;
 		struct s_west_wall
 		{
-			char	*file;				//is_allocated
+			char	*file;
 			int		cols;
 			int		rows;
-			void	*ptr;				//will_be_destroyed
+			void	*ptr;
 			int		*buf;
 			int		pixel_bits;
 			int		line_bytes;
@@ -153,13 +152,13 @@ typedef struct s_info					//is_allocated
 		{
 			int		cols;
 			int		rows;
-			void	*ptr;				//will_be_destroyed
+			void	*ptr;
 		}	minimap_wall;
-		struct s_minimap_point			//just for visualizerTesting
+		struct s_minimap_point
 		{
 			int		cols;
 			int		rows;
-			void	*ptr;				//will_be_destroyed
+			void	*ptr;
 		}	minimap_point;
 	}	objects;
 	struct s_sys
@@ -184,13 +183,13 @@ typedef struct s_info					//is_allocated
 			win_width = 1080,
 			win_height = 720
 		}	window_size;
-		void	*mlx_ptr;				//will_be_destroyed...?(can occur leaks)
-		void	*win_ptr;				//will_be_destroyed
+		void	*mlx_ptr;
+		void	*win_ptr;
 	}	sys;
 	struct s_screen
 	{
-		void	*img;					//will_be_destroyed
-		char	*addr;					//is_allocated..? maybe..
+		void	*img;
+		char	*addr;
 		int		bits_per_pixel;
 		int		line_length;
 		int		endian;
@@ -198,11 +197,6 @@ typedef struct s_info					//is_allocated
 }	t_info;
 
 //declares Functions
-//>>>>>>>>>>>>>>>>>>TESTCODE.c (must be deleted!)<<<<<<<<<<<<<<<<<<<
-void	check_leaks(void);
-void	printInfo(t_info *const info);
-void	put_minimap(t_info *const info);
-
 //		exit_process.c
 void	exit_process(char *msg, int exit_code, t_info *const info, int fd);
 
@@ -228,6 +222,10 @@ void	parse_objs(t_info *const info, int fd, char *buf);
 
 //		parse_objs__rgb.c
 void	get_rgb(t_info *const info, int fd, char *buf, t_obj_id id);
+
+//		parse_objs__rgb2.c
+void	callocate_color_strs(t_info *const info, int fd, \
+								char ***out_strs);
 
 //		parse_objs__texture.c
 void	get_texfile(t_info *const info, int fd, char *buf, enum e_obj_id id);
@@ -259,31 +257,35 @@ void	create_mlx_win_imgs(t_info *const info);
 //		create_screen_img.c
 void	create_screen_img(t_info *const info);
 void	draw_background(t_info *const info);
-void	draw_black_background(t_info *const info);
 
 //		game.c
 void	game(t_info *const info);
 void	draw_screen_img(t_info *const info);
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
-//(filename).c
+
+//		put_minimap.c
+void	put_minimap(t_info *const info);
+
+//		key_press_wasd_esc.c
+int		hook_click_x(t_info *const info);
+void	press_key_w(t_info *const info);
+void	press_key_s(t_info *const info);
+void	press_key_d(t_info *const info);
+void	press_key_a(t_info *const info);
+
+//		key_press_rotate.c
+void	press_left_arrow(t_info *const info);
+void	press_right_arrow(t_info *const info);
+
+//		raycasting.c
+void	draw_wall_using_raycast(t_info *const info);
+
+//		draw_raycasted_pixel.c
+void	draw_north_raycasted_pixel(t_info *info, int i, int x);
+void	draw_south_raycasted_pixel(t_info *info, int i, int x);
+void	draw_west_raycasted_pixel(t_info *info, int i, int x);
+void	draw_east_raycasted_pixel(t_info *info, int i, int x);
+
+//		dda.c
+void	dda(t_info *info, int x, int y);
+
 #endif
