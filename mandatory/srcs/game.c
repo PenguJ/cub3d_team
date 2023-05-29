@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 23:18:43 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/28 21:57:40 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/29 15: by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,49 +21,100 @@ int	hook_click_x(t_info *const info)
 void	press_key_w(t_info *const info)
 {
 	if (info->game.map.pars \
-	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_y * MOVE_SPEED)] \
-	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_x * MOVE_SPEED)] \
-	!= '1')
+	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	!= '1' && \
+	info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	!= ' ' && \
+	info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	!= '\0')
 	{
 		info->game.fp.pos.x += info->game.fp.pov.dv_x * MOVE_SPEED;
 		info->game.fp.pos.y += info->game.fp.pov.dv_y * MOVE_SPEED;
+		draw_screen_img(info);
+		mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
+		mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
+			info->screen.img, 0, 0);
+		put_minimap(info);
 	}
-
 }
 
 void	press_key_s(t_info *const info)
 {
 	if (info->game.map.pars \
-	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_y * MOVE_SPEED)] \
-	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_x * MOVE_SPEED)] \
-	!= '1')
+	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	!= '1' && \
+	info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	!= ' ' && \
+	info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	!= '\0')
 	{
 		info->game.fp.pos.x -= info->game.fp.pov.dv_x * MOVE_SPEED;
 		info->game.fp.pos.y -= info->game.fp.pov.dv_y * MOVE_SPEED;
+		draw_screen_img(info);
+		mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
+		mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
+			info->screen.img, 0, 0);
+		put_minimap(info);
 	}
 }
 
 void	press_key_d(t_info *const info)
 {
 	if (info->game.map.pars \
-	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_x * MOVE_SPEED)] \
-	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_y * MOVE_SPEED)] \
-	!= '1')
+	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	!= '1' && \
+	info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	!= ' ' && \
+	info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y + info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x - info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	!= '\0')
 	{
 		info->game.fp.pos.x -= info->game.fp.pov.dv_y * MOVE_SPEED;
 		info->game.fp.pos.y += info->game.fp.pov.dv_x * MOVE_SPEED;
+		draw_screen_img(info);
+		mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
+		mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
+			info->screen.img, 0, 0);
+		put_minimap(info);
 	}
 }
 
 void	press_key_a(t_info *const info)
 {
 	if (info->game.map.pars \
-	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_x * MOVE_SPEED)] \
-	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_y * MOVE_SPEED)] \
-	!= '1')
+	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	!= '1' && \
+	info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	!= ' ' && \
+	info->game.map.pars \
+	[(int)floor(info->game.fp.pos.y - info->game.fp.pov.dv_x * MOVE_SPEED * 2)] \
+	[(int)floor(info->game.fp.pos.x + info->game.fp.pov.dv_y * MOVE_SPEED * 2)] \
+	!= '\0')
 	{
 		info->game.fp.pos.x += info->game.fp.pov.dv_y * MOVE_SPEED;
 		info->game.fp.pos.y -= info->game.fp.pov.dv_x * MOVE_SPEED;
+		draw_screen_img(info);
+		mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
+		mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
+			info->screen.img, 0, 0);
+		put_minimap(info);
 	}
 }
 
@@ -88,6 +139,11 @@ void	press_left_arrow(t_info *const info)
 		info->game.fp.pov.dv_y * FOV_HALF_SCALAR;
 	info->game.fp.fov.plain_y = \
 		info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
+	draw_screen_img(info);
+	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
+	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
+		info->screen.img, 0, 0);
+	put_minimap(info);
 }
 
 void	press_right_arrow(t_info *const info)
@@ -111,6 +167,11 @@ void	press_right_arrow(t_info *const info)
 		info->game.fp.pov.dv_y * FOV_HALF_SCALAR;
 	info->game.fp.fov.plain_y = \
 		info->game.fp.pov.dv_x * -1 * FOV_HALF_SCALAR;
+	draw_screen_img(info);
+	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
+	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
+		info->screen.img, 0, 0);
+	put_minimap(info);
 }
 
 int	hook_key_press(int key, t_info *const info)
@@ -131,16 +192,6 @@ int	hook_key_press(int key, t_info *const info)
 		exit_process(NULL, EXIT_SUCCESS, info, 0);
 	else
 		return (0);
-printf("pos_x: %lf,   pos_y: %lf\n", info->game.fp.pos.x, \
-							info->game.fp.pos.y);
-printf("pov_now_x: %lf,   pov_now_y: %lf\n", info->game.fp.pov.dv_x, \
-							info->game.fp.pov.dv_y);
-printf("plain_x: %lf,   plain_y: %lf\n", info->game.fp.fov.plain_x, \
-							info->game.fp.fov.plain_y);
-	draw_screen_img(info);
-	mlx_clear_window(info->sys.mlx_ptr, info->sys.win_ptr);
-	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
-		info->screen.img, 0, 0);
 	return (0);
 }
 
@@ -160,10 +211,10 @@ void	get_ray_dv(t_info *info, int i)
 	info->game.fp.fov.ray_dist = sqrt((info->game.fp.fov.ray_dv_x*info->game.fp.fov.ray_dv_x)+(info->game.fp.fov.ray_dv_y*info->game.fp.fov.ray_dv_y));
 	if (info->game.fp.fov.ray_dv_x != 0.00000000)
 		info->game.fp.fov.delta_dist_x = sqrt(1 + (info->game.fp.fov.ray_dv_y * info->game.fp.fov.ray_dv_y) / (info->game.fp.fov.ray_dv_x * info->game.fp.fov.ray_dv_x));
-		// info->game.fp.fov.delta_dist_x = fabs(info->game.fp.fov.ray_dist / info->game.fp.fov.ray_dv_x);
+		info->game.fp.fov.delta_dist_x = fabs(1 / info->game.fp.fov.ray_dv_x);
 	if (info->game.fp.fov.ray_dv_y != 0.00000000)
 		info->game.fp.fov.delta_dist_y = sqrt(1 + (info->game.fp.fov.ray_dv_x * info->game.fp.fov.ray_dv_x) / (info->game.fp.fov.ray_dv_y * info->game.fp.fov.ray_dv_y));
-		// info->game.fp.fov.delta_dist_y = fabs(info->game.fp.fov.ray_dist / info->game.fp.fov.ray_dv_y);
+		info->game.fp.fov.delta_dist_y = fabs(1 / info->game.fp.fov.ray_dv_y);
 }
 
 
@@ -222,12 +273,12 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 			if (info->game.fp.fov.side == 0)
 			{
 				info->game.fp.fov.perp_wall_dist = (x - info->game.fp.pos.x + (1 - info->game.fp.fov.step_x) / 2) / info->game.fp.fov.ray_dv_x;
-				info->game.fp.fov.wall_x = info->game.fp.pos.y + (info->game.fp.fov.side_dist_x * (info->game.fp.fov.ray_dv_y) / info->game.fp.fov.ray_dist);
+				info->game.fp.fov.wall_x = info->game.fp.pos.y + (info->game.fp.fov.perp_wall_dist * info->game.fp.fov.ray_dv_y);
 			}
 			else
 			{
 				info->game.fp.fov.perp_wall_dist = (y - info->game.fp.pos.y + (1 - info->game.fp.fov.step_y) / 2) / info->game.fp.fov.ray_dv_y;
-				info->game.fp.fov.wall_x = info->game.fp.pos.x + (info->game.fp.fov.side_dist_y * (info->game.fp.fov.ray_dv_x) / info->game.fp.fov.ray_dist);
+				info->game.fp.fov.wall_x = info->game.fp.pos.x + (info->game.fp.fov.perp_wall_dist * info->game.fp.fov.ray_dv_x);
 			}
 			info->game.fp.fov.line_height = (int)(win_width / info->game.fp.fov.perp_wall_dist);
 			break;
@@ -369,7 +420,6 @@ void	set_wall(t_info *info, int i)
 	int x;
 
 	x = (int)((info->game.fp.fov.wall_x - floor(info->game.fp.fov.wall_x)) * 64.000000);
-	printf("x is %d\n",x);
 	if (info->game.fp.fov.side== 1 && \
 	info->game.fp.fov.step_y == -1)
 		draw_north_raycasted_pixel(info, i, x); //north
@@ -416,6 +466,7 @@ void	game(t_info *const info)
 	draw_screen_img(info);
 	mlx_put_image_to_window(info->sys.mlx_ptr, info->sys.win_ptr, \
 		info->screen.img, 0, 0);
+	put_minimap(info);
 	mlx_loop_hook(info->sys.mlx_ptr, &loop_hook, info);
 	mlx_loop(info->sys.mlx_ptr);
 }

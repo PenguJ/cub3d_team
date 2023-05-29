@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/28 20:09:14 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/29 17:50:12 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ typedef struct s_info					//is_allocated
 				int		side;
 				int		step_x;
 				int		step_y;
-				
 				double	perp_wall_dist;
 				int		line_height;
 			}		fov;

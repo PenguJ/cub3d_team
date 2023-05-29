@@ -6,7 +6,7 @@
 /*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:17:26 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/25 01:16:19 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/29 16:19:05 by jeojeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ void	exit_process(char *msg, int exit_code, t_info *const info, int fd)
 		ft_putendl_fd(msg, STDERR_FILENO);
 	}
 	free(info);
-//check_leaks();  //must will be deleted! (and double check using loop leaks cmd)
 	exit(exit_code);
 }
