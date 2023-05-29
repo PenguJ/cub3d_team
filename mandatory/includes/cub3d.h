@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/29 17:50:12 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/29 18:24:35 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 //define & typedef
 # define VALID_ARGC_NUM (2)
 # define FOV_HALF_SCALAR (0.66)
-# define ANGLE_5 (M_PI / 18)
-# define MOVE_SPEED (0.3)
+# define ANGLE_5 (M_PI / 36)
+# define MOVE_SPEED (0.1)
 
 typedef enum e_obj_id
 {

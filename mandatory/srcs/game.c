@@ -286,6 +286,33 @@ void	dda(t_info *info)  // 어차피 벽 방향 판별 추가해야 해서 함�
 	}
 }
 
+int		color_gradiate(int i, int depth, int flag)
+{
+	int r;
+	int g;
+	int b;
+	int result;
+
+	b = i % 256;
+	g = (i % (65536)) / 256;
+	r = (i % (16777216)) / (65536);
+    depth = (int)((720 - depth) / 720.000000 * 255 * 0.8);
+	if (r > 0)
+		r = (int)fmax(0.000, (double)(r - depth));
+	if (g > 0)
+		g = (int)fmax(0.000, (double)(g - depth));
+	if (b > 0)
+		b = (int)fmax(0.000, (double)(b - depth));
+	if (flag == 1)
+	{
+		r>>=1;
+		g>>=1;
+		b>>=1;
+	}
+	result = r * 65536 + g * 256 + b;
+    return (result);
+}
+
 void	draw_north_raycasted_pixel(t_info *info, int i, int x)
 {
 	int		draw_start;
@@ -312,8 +339,7 @@ void	draw_north_raycasted_pixel(t_info *info, int i, int x)
 			y = (int)(64.00000000 * idx / (draw_end - draw_start));
 		dst = info->screen.addr + ((draw_start + idx) * info->screen.line_length + i * \
 					(info->screen.bits_per_pixel / 8));
-		*(int *)dst = info->objects.north_wall.buf[(int)(y * info->objects.north_wall.line_bytes / 4.00000000 + x)];
-		// *(unsigned int *)dst = 0x00FFFFFF;
+		*(int *)dst = color_gradiate(info->objects.north_wall.buf[(int)(y * info->objects.north_wall.line_bytes / 4.00000000 + x)], draw_end - draw_start, 0);
 		idx++;
 	}
 }
@@ -344,7 +370,7 @@ void	draw_south_raycasted_pixel(t_info *info, int i, int x)
 			y = (int)(64.00000000 * idx / (draw_end - draw_start));
 		dst = info->screen.addr + ((draw_start + idx) * info->screen.line_length + i * \
 					(info->screen.bits_per_pixel / 8));
-		*(int *)dst = info->objects.south_wall.buf[(int)(y * info->objects.south_wall.line_bytes / 4.00000000 + (63 - x))];
+		*(int *)dst = color_gradiate(info->objects.south_wall.buf[(int)(y * info->objects.south_wall.line_bytes / 4.00000000 + (63 - x))], draw_end - draw_start, 0);
 		// *(unsigned int *)dst = 0x00FFFFFF;
 		idx++;
 	}
@@ -376,7 +402,7 @@ void	draw_west_raycasted_pixel(t_info *info, int i, int x)
 			y = (int)(64.00000000 * idx / (draw_end - draw_start));
 		dst = info->screen.addr + ((draw_start + idx) * info->screen.line_length + i * \
 					(info->screen.bits_per_pixel / 8));
-		*(int *)dst = info->objects.west_wall.buf[(int)(y * info->objects.west_wall.line_bytes / 4.00000000 + (63 - x))];
+		*(int *)dst = color_gradiate(info->objects.west_wall.buf[(int)(y * info->objects.west_wall.line_bytes / 4.00000000 + (63 - x))], draw_end - draw_start, 1);
 		// *(unsigned int *)dst = 0x00FFFFFF;
 		idx++;
 	}
@@ -408,7 +434,7 @@ void	draw_east_raycasted_pixel(t_info *info, int i, int x)
 			y = (int)(64.00000000 * idx / (draw_end - draw_start));
 		dst = info->screen.addr + ((draw_start + idx) * info->screen.line_length + i * \
 					(info->screen.bits_per_pixel / 8));
-		*(int *)dst = info->objects.east_wall.buf[(int)(y * info->objects.east_wall.line_bytes / 4.00000000 + x)];
+		*(int *)dst = color_gradiate(info->objects.east_wall.buf[(int)(y * info->objects.east_wall.line_bytes / 4.00000000 + x)], draw_end - draw_start, 1);
 		// *(unsigned int *)dst = 0x00FFFFFF;
 		idx++;
 	}
