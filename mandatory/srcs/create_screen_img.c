@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_screen_img.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeojeon <jeojeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 22:42:54 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/27 13:59:05 by jeojeon          ###   ########.fr       */
+/*   Updated: 2023/05/29 19:34:33 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ void	draw_background(t_info *const info)
 				(info->screen.bits_per_pixel / 8));
 			if (y < 360)
 				*(unsigned int *)dst = info->objects.rgb_ceiling.rgb + \
-					(256 * 256 * 256 * ((y * 255) / (win_height / 2)));
+					(16777216 * ((y * 255) / (win_height / 2)));
 			else
 				*(unsigned int *)dst = info->objects.rgb_floor.rgb + \
-					(256 * 256 * 256 * (((win_height - y) * 255) / (win_height / 2)));
+					(16777216 * (((win_height - y) * 255) / (win_height / 2)));
 			++x;
 		}
 		++y;

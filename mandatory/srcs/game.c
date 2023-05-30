@@ -296,7 +296,7 @@ int		color_gradiate(int i, int depth, int flag)
 	b = i % 256;
 	g = (i % (65536)) / 256;
 	r = (i % (16777216)) / (65536);
-    depth = (int)((720 - depth) / 720.000000 * 255 * 0.8);
+    depth = abs((int)((win_height - depth) / (double)win_height * 255 * 0.95)) ;
 	if (r > 0)
 		r = (int)fmax(0.000, (double)(r - depth));
 	if (g > 0)
@@ -475,7 +475,6 @@ void	draw_wall_using_raycast(t_info *const info)
 
 void	draw_screen_img(t_info *const info)
 {
-	draw_black_background(info);
 	draw_background(info);
 	draw_wall_using_raycast(info);
 }

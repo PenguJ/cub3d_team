@@ -6,7 +6,7 @@
 /*   By: geonlee <geonlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:03:31 by jeojeon           #+#    #+#             */
-/*   Updated: 2023/05/29 18:24:35 by geonlee          ###   ########.fr       */
+/*   Updated: 2023/05/29 19:19:56 by geonlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,7 @@ void	draw_black_background(t_info *const info);
 //		game.c
 void	game(t_info *const info);
 void	draw_screen_img(t_info *const info);
+int		color_gradiate(int i, int depth, int flag);
 //(filename).c
 //(filename).c
 //(filename).c
